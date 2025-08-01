@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,13 +20,39 @@
         html {
             scroll-behavior: smooth;
         }
-        
-        /* Enhanced Global Styles & Animations */
+
+        /* Custom Cursor for Desktop */
+        .cursor-dot, .cursor-circle {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: #10b981;
+        }
+        .cursor-circle {
+            width: 40px; height: 40px;
+            border: 2px solid #10b981;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.3s, background-color 0.3s;
+        }
+        .cursor-grow .cursor-circle {
+            transform: translate(-50%, -50%) scale(1.5);
+            background-color: rgba(16, 185, 129, 0.2);
+            border-color: transparent;
+        }
+        @media (max-width: 768px) {
+            .cursor-dot, .cursor-circle { display: none; }
+        }
+
         .section-title { 
             @apply text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent; 
         }
 
-        /* Enhanced loader animation */
         @keyframes gentle-pulse {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(0.95); opacity: 0.7; }
@@ -35,33 +61,11 @@
             animation: gentle-pulse 1.8s ease-in-out infinite; 
         }
 
-        /* Staggered fade-in animations */
         @keyframes fadeInUp { 
             from { opacity: 0; transform: translateY(30px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
         
-        @keyframes fadeInLeft { 
-            from { opacity: 0; transform: translateX(-30px); } 
-            to { opacity: 1; transform: translateX(0); } 
-        }
-        
-        @keyframes fadeInRight { 
-            from { opacity: 0; transform: translateX(30px); } 
-            to { opacity: 1; transform: translateX(0); } 
-        }
-
-        .stagger-animation > * {
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
-        .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
-        .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
-        .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
-        .stagger-animation > *:nth-child(5) { animation-delay: 0.5s; }
-
         #main-content.visible { 
             opacity: 1; 
             animation: fadeInUp 0.8s ease-out forwards; 
@@ -90,15 +94,7 @@
             animation: content-fade 0.5s ease forwards; 
         }
 
-        /* Enhanced magnetic effect */
-        .magnetic-effect {
-            position: relative;
-            display: inline-block;
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-        }
-
-        /* Enhanced hover effects */
-        .skill-card {
+        .skill-card, .project-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -106,17 +102,17 @@
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 40px rgba(52, 211, 153, 0.15);
         }
-
-        .project-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
         
         .project-card:hover {
             transform: translateY(-12px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+        }
+        .dark .project-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.1);
         }
 
-        /* Enhanced timeline */
+        /* Enhanced Timeline with "Drawing" Animation */
+        .timeline-container { position: relative; }
         .timeline-container::before { 
             content: ''; 
             position: absolute; 
@@ -125,98 +121,50 @@
             top: 0; 
             bottom: 0; 
             width: 4px; 
+            background-color: #374151; /* Base color */
+            border-radius: 2px;
+        }
+        .timeline-container::after { /* The "drawing" line */
+            content: ''; 
+            position: absolute; 
+            left: 50%; 
+            transform: translateX(-50%);
+            top: 0; 
+            width: 4px; 
             background: linear-gradient(to bottom, #10b981, #14b8a6);
             border-radius: 2px;
+            height: 0; /* Animated with JS */
+            transition: height 0.2s linear;
         }
         
         .timeline-item { 
-            position: relative; 
-            width: 50%; 
-            margin-bottom: 60px; 
-            opacity: 0; 
+            position: relative; width: 50%; margin-bottom: 60px; opacity: 0; 
             transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
         }
-        
-        .timeline-item:nth-child(odd) {
-            left: 0;
-            padding-right: 60px;
-            text-align: right;
-            transform: translateX(-50px);
-        }
-        
-        .timeline-item:nth-child(even) {
-            left: 50%;
-            padding-left: 60px;
-            transform: translateX(50px);
-        }
-        
-        .timeline-item.visible { 
-            opacity: 1; 
-            transform: translateX(0); 
-        }
+        .timeline-item:nth-child(odd) { left: 0; padding-right: 60px; text-align: right; transform: translateX(-50px); }
+        .timeline-item:nth-child(even) { left: 50%; padding-left: 60px; transform: translateX(50px); }
+        .timeline-item.visible { opacity: 1; transform: translateX(0); }
         
         .timeline-dot { 
-            position: absolute; 
-            left: 50%; 
-            top: 10px;
-            transform: translateX(-50%); 
-            height: 20px; 
-            width: 20px; 
-            border: 4px solid #10b981; 
-            border-radius: 50%; 
-            background: #f1f5f9; 
-            z-index: 10;
+            position: absolute; top: 10px; left: 50%; transform: translateX(-50%); 
+            height: 20px; width: 20px; border: 4px solid #10b981; 
+            border-radius: 50%; background: #f1f5f9; z-index: 10;
             box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+            transition: transform 0.3s;
         }
-        
-        .dark .timeline-dot { 
-            background: #1e293b; 
-        }
+        .timeline-item.visible .timeline-dot { transform: translateX(-50%) scale(1.1); }
+        .dark .timeline-dot { background: #1e293b; }
 
-        /* Mobile timeline adjustments */
         @media (max-width: 767px) {
-            .timeline-container::before { 
-                left: 30px; 
-                transform: none;
-            }
-            
-            .timeline-item { 
-                width: 100%;
-                left: 0;
-                padding-left: 70px;
-                padding-right: 20px;
-                text-align: left;
-            }
-            
-            .timeline-item:nth-child(odd) {
-                padding-right: 20px;
-                text-align: left;
-                transform: translateY(30px);
-            }
-            
-            .timeline-item:nth-child(even) {
-                left: 0;
-                padding-left: 70px;
-                transform: translateY(30px);
-            }
-            
-            .timeline-dot { 
-                left: 30px; 
-                transform: translateX(-50%);
-            }
+            .timeline-container::before, .timeline-container::after { left: 30px; transform: none; }
+            .timeline-item { width: 100%; left: 0 !important; padding-left: 70px; padding-right: 20px; text-align: left !important; }
+            .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { transform: translateY(30px); }
+            .timeline-dot { left: 30px; transform: translateX(-50%); }
         }
 
-        /* Enhanced modal */
-        .modal-backdrop {
-            backdrop-filter: blur(10px);
-        }
+        .modal-backdrop { backdrop-filter: blur(10px); }
+        .dark-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
 
-        /* Background gradient for dark mode */
-        .dark-gradient {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-        }
-
-        /* Responsive layouts */
         #home { flex-direction: column; }
         @media (min-width: 768px) { #home { flex-direction: row; } }
         
@@ -229,29 +177,41 @@
         #projects-grid { grid-template-columns: repeat(1, minmax(0, 1fr)); }
         @media (min-width: 768px) { #projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         @media (min-width: 1024px) { #projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        
+        /* Accessibility: Disable animations on request */
+        @media (prefers-reduced-motion: reduce) {
+          html { scroll-behavior: auto; }
+          *, *::before, *::after {
+            animation-duration: 1ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 1ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
     </style>
 </head>
-<body>
-    <div id="app-wrapper" class="bg-stone-100 text-gray-800 dark:text-gray-200 transition-colors duration-500">
-        <!-- Enhanced Loading Screen -->
-        <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 z-[1000]">
+<body class="bg-stone-100 text-gray-800 dark:text-gray-200 transition-colors duration-500">
+    
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <div id="app-wrapper">
+        <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 z-[1000] transition-opacity duration-500">
             <div class="loader text-6xl font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">V H K</div>
         </div>
 
         <main id="main-content" class="opacity-0">
-            <!-- Enhanced Header -->
-            <header class="sticky top-0 z-50 p-4 bg-white/80 dark:bg-black/50 backdrop-blur-lg shadow-lg border-b border-gray-200/20 dark:border-gray-700/20">
+            <header class="sticky top-0 z-50 p-4 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-lg border-b border-gray-200/20 dark:border-gray-700/20">
                 <div class="container mx-auto flex justify-between items-center">
                     <a href="#home" class="nav-link text-2xl font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">Vineeth H Kumar</a>
-                    <nav id="desktop-nav" class="hidden md:flex items-center gap-8">
-                        <div class="magnetic-effect">
-                            <button id="theme-toggle" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-110">
-                                <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
-                            </button>
-                        </div>
+                    <nav id="desktop-nav" class="hidden md:flex items-center gap-6">
+                        {/* Nav links will be injected by JS */}
+                        <button id="theme-toggle" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-110" aria-label="Toggle dark mode">
+                            <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                        </button>
                     </nav>
                     <div class="md:hidden">
-                        <button id="menu-toggle" class="z-50 p-2">
+                        <button id="menu-toggle" class="z-50 p-2" aria-label="Toggle mobile menu">
                             <i class="fa-solid fa-bars fa-lg transition-transform duration-300"></i>
                         </button>
                     </div>
@@ -260,36 +220,30 @@
             </header>
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Enhanced Hero Section -->
                 <section id="home" class="min-h-screen flex items-center justify-center text-center md:text-left py-16 gap-12">
-                    <div class="flex flex-col items-center md:items-start w-full md:w-3/5 lg:w-1/2 stagger-animation">
+                    <div class="flex flex-col items-center md:items-start w-full md:w-3/5 lg:w-1/2">
                         <h1 class="text-5xl md:text-6xl lg:text-8xl font-extrabold mb-6 leading-tight">
                             Hey, I'm <span class="bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">Vineeth H Kumar</span>
                         </h1>
                         <p id="type-animation" class="text-lg md:text-xl text-gray-500 dark:text-gray-400 mb-10 max-w-2xl h-16"></p>
                         <div id="socials-container" class="flex flex-wrap justify-center md:justify-start gap-8 mb-10"></div>
-                        <div class="magnetic-effect">
-                            <a id="resume-button" href="#" download class="inline-block px-10 py-5 bg-emerald-600 text-white font-bold rounded-xl shadow-xl hover:bg-emerald-700 transition-all duration-300 hover:shadow-2xl hover:scale-105">
-                                Download Resume
-                            </a>
-                        </div>
+                        <a id="resume-button" href="#" download class="inline-block px-10 py-5 bg-emerald-600 text-white font-bold rounded-xl shadow-xl hover:bg-emerald-700 transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                            Download Resume
+                        </a>
                     </div>
                     <div id="3d-container" class="w-full md:w-2/5 lg:w-1/2 h-96 md:h-[500px]"></div>
                 </section>
                 
-                <!-- Enhanced About Section -->
                 <section id="about" class="py-32 scroll-animate">
                     <h2 class="section-title">About Me</h2>
                     <div id="about-content" class="max-w-4xl mx-auto text-center text-xl text-gray-600 dark:text-gray-300 leading-relaxed"></div>
                 </section>
 
-                <!-- Enhanced Skills Section -->
                 <section id="skills" class="py-32">
                     <h2 class="section-title">Technical Skills</h2>
                     <div id="skills-grid" class="grid gap-10 max-w-6xl mx-auto"></div>
                 </section>
 
-                <!-- Enhanced Process Section -->
                 <section id="process" class="py-32 scroll-animate">
                     <h2 class="section-title">My Process</h2>
                     <div class="flex max-w-5xl mx-auto gap-10">
@@ -300,25 +254,21 @@
                     </div>
                 </section>
 
-                <!-- Enhanced Projects Section -->
                 <section id="projects" class="py-32">
                     <h2 class="section-title">Featured Projects</h2>
                     <div id="projects-grid" class="grid max-w-7xl mx-auto gap-12"></div>
                 </section>
 
-                <!-- Enhanced Experience Section -->
                 <section id="experience" class="py-32">
                     <h2 class="section-title">My Journey</h2>
-                    <div class="timeline-container relative max-w-6xl mx-auto py-16 px-4"></div>
+                    <div id="timeline-container" class="timeline-container max-w-6xl mx-auto py-16 px-4"></div>
                 </section>
 
-                <!-- Enhanced Testimonials Section -->
                 <section id="testimonials" class="py-32 scroll-animate">
                     <h2 class="section-title">What Others Say</h2>
                     <div id="testimonial-slider" class="max-w-4xl mx-auto text-center relative h-60"></div>
                 </section>
 
-                <!-- Enhanced Contact Section -->
                 <section id="contact" class="py-32 scroll-animate">
                     <h2 class="section-title">Get In Touch</h2>
                     <p class="text-xl text-gray-600 dark:text-gray-300 text-center mb-16 max-w-3xl mx-auto">
@@ -328,7 +278,6 @@
                 </section>
             </div>
 
-            <!-- Enhanced Footer -->
             <footer class="py-12 border-t border-gray-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
                 <div class="container mx-auto text-center text-gray-500 dark:text-gray-400">
                     <div id="footer-socials" class="flex justify-center gap-8 mb-6"></div>
@@ -338,14 +287,10 @@
             </footer>
         </main>
         
-        <!-- Enhanced Scroll to Top Button -->
-        <div class="magnetic-effect">
-            <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-emerald-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-90 hover:bg-emerald-700">
-                <i class="fa-solid fa-arrow-up text-lg"></i>
-            </button>
-        </div>
+        <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-emerald-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-90 hover:bg-emerald-700">
+            <i class="fa-solid fa-arrow-up text-lg"></i>
+        </button>
 
-        <!-- Enhanced Project Modal -->
         <div id="project-modal" class="fixed inset-0 modal-backdrop bg-black/80 flex items-center justify-center z-[999] p-6 opacity-0 pointer-events-none transition-all duration-300">
             <div id="modal-content" class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()"></div>
         </div>
@@ -353,449 +298,368 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Enhanced personal info and data (same as before but with updated styling)
-            const personalInfo = { 
-                name: "Vineeth H Kumar", 
-                title: "Electronics Engineer | Embedded Enthusiast | Problem Solver", 
-                resume: "/Vineeth.pdf", 
-                email: "vineethkumar1703@gmail.com", 
-                socials: [ 
-                    { name: "GitHub", url: "https://github.com/Vineeth1703", icon: "fa-brands fa-github" }, 
-                    { name: "LinkedIn", url: "https://www.linkedin.com/in/vineeth-h-kumar-a7858a24b/", icon: "fa-brands fa-linkedin" }, 
-                    { name: "Email", url: "mailto:vineethkumar1703@gmail.com", icon: "fa-solid fa-envelope" }, 
-                ], 
-                about: "I am an Electronics and Communication Engineering graduate with a deep passion for building intelligent embedded systems. I thrive at the intersection of hardware and software, leveraging my skills in circuit design, microcontroller programming, and IoT to create practical, smart solutions that tackle real-world challenges.", 
-            };
 
-            const skills = [ 
-                { name: 'Embedded C/C++', icon: 'fa-solid fa-microchip', level: 95 }, 
-                { name: 'Python', icon: 'fa-solid fa-code', level: 90 }, 
-                { name: 'VLSI Design', icon: 'fa-solid fa-robot', level: 85 }, 
-                { name: 'React.js & Web Dev', icon: 'fa-solid fa-paintbrush', level: 80 }, 
-                { name: 'IoT & Cloud', icon: 'fa-solid fa-satellite-dish', level: 88 }, 
-                { name: 'PCB Design (KiCad)', icon: 'fa-solid fa-tools', level: 92 }, 
-                { name: 'MATLAB/Simulink', icon: 'fa-solid fa-server', level: 85 }, 
-                { name: 'Git & GitHub', icon: 'fa-solid fa-database', level: 90 }, 
-            ];
+            const PortfolioApp = {
+                // --- CONFIGURATION & DATA ---
+                config: {
+                    activeProcessTab: 'discover',
+                    activeTestimonial: 0,
+                    isDarkMode: localStorage.getItem('darkMode') !== 'false',
+                    testimonialInterval: 6000,
+                },
 
-            const projects = [ 
-                { 
-                    title: 'Smart Agri-Bot', 
-                    description: 'An IoT-powered agricultural bot using ESP32 for precision seeding, real-time soil monitoring, and automated irrigation. This project involved complex sensor integration, motor control, and cloud data transmission, resulting in a 40% increase in operational efficiency compared to manual methods.', 
-                    tags: ['ESP32', 'IoT', 'C++', 'Sensors', 'Automation', 'Firebase'], 
-                    liveUrl: '#', 
-                    sourceUrl: '#', 
-                    image: 'https://placehold.co/600x400/166534/ecfdf5?text=Agri-Bot' 
-                }, 
-                { 
-                    title: 'Real-Time Fall Detection System', 
-                    description: 'Engineered a wearable device using an MPU6050 accelerometer/gyroscope and an ESP8266 microcontroller. The system uses a custom algorithm to detect falls with 98% accuracy and sends instant alerts to caregivers via a real-time web dashboard built with React and Firebase.', 
-                    tags: ['MPU6050', 'IoT', 'Firebase', 'React', 'Wearable Tech'], 
-                    liveUrl: '#', 
-                    sourceUrl: '#', 
-                    image: 'https://placehold.co/600x400/166534/ecfdf5?text=Fall+Detection' 
-                }, 
-                { 
-                    title: 'FPGA Based 32-bit RISC CPU', 
-                    description: 'Designed and implemented a 5-stage pipelined 32-bit RISC processor on a Xilinx Artix-7 FPGA. The project involved writing the entire architecture in Verilog, simulating instruction execution, and successfully running benchmark programs on the synthesized hardware.', 
-                    tags: ['Verilog', 'FPGA', 'Xilinx', 'CPU Design', 'Pipelining'], 
-                    liveUrl: '#', 
-                    sourceUrl: '#', 
-                    image: 'https://placehold.co/600x400/166534/ecfdf5?text=RISC+CPU' 
-                }, 
-            ];
-
-            const experience = [ 
-                { role: "Electronics Product Development Intern", company: "Experimind Labs Pvt Ltd", date: "June 2025 – July 2025", description: "Contributed to the full lifecycle of an electronics product, from schematic design and PCB layout to firmware development and testing. Developed the 'Anubhav Kit' for STEM labs." }, 
-                { role: "Electrical Maintenance Intern", company: "MESCOM", date: "Jul 3 2024 – Jul 20 2024", description: "Assisted in the daily monitoring and maintenance of a high-voltage electrical substation, gaining practical experience in power systems and safety protocols." }, 
-            ];
-
-            const education = [ 
-                { degree: "B.Tech in Electronics & Communication", institution: "Nitte Mahalinga Adyanthaya Memorial Institute of Technology (NMAMIT)", date: "2022 - 2026" }, 
-                { degree: "P.U.E (Pre-University Education)", institution: "Madeliene PU College", date: "2020 - 2022" }, 
-                { degree: "SSLC", institution: "Bethany Engish Medium High School", date: "2017-2020" }, 
-            ];
-
-            const processSteps = [ 
-                { id: 'discover', title: 'Discovery', icon: 'fa-solid fa-lightbulb', description: "It all starts with an idea. I work closely with stakeholders to understand the core problem, define project goals, and map out the requirements for a successful outcome." }, 
-                { id: 'design', title: 'Design', icon: 'fa-solid fa-pencil-ruler', description: "In this phase, I create system architectures, schematic diagrams, and user flow maps. The goal is to build a robust and scalable blueprint before writing a single line of code." }, 
-                { id: 'develop', title: 'Development', icon: 'fa-solid fa-laptop-code', description: "This is where the magic happens. I write clean, efficient code, develop firmware, build and test hardware prototypes, and integrate all components into a cohesive system." }, 
-                { id: 'deploy', title: 'Deployment', icon: 'fa-solid fa-rocket', description: "After rigorous testing, the solution is deployed. I monitor its performance, gather feedback, and provide ongoing support to ensure long-term success and reliability." }, 
-            ];
-
-            const testimonials = [ 
-                { quote: "Vineeth's attention to detail and deep understanding of embedded systems were critical to our project's success. A true professional.", author: "Project Lead, Experimind Labs" }, 
-                { quote: "An incredibly quick learner and a collaborative team player. Vineeth's problem-solving skills are top-notch.", author: "Mentor, MESCOM" }, 
-                { quote: "The fall detection system he designed is not just a concept; it's a life-saving tool. His passion for applying technology for good is inspiring.", author: "University Professor" }, 
-            ];
-
-            const navLinks = [ 
-                { name: 'About', href: '#about' }, 
-                { name: 'Skills', href: '#skills' }, 
-                { name: 'Process', href: '#process' }, 
-                { name: 'Projects', href: '#projects' }, 
-                { name: 'Experience', href: '#experience' }, 
-                { name: 'Contact', href: '#contact' }
-            ];
-
-            let activeProcessTab = 'discover', activeTestimonial = 0, isDarkMode;
-            const getEl = (id) => document.getElementById(id);
-
-            const renderContent = () => {
-                const desktopNav = getEl('desktop-nav');
-                desktopNav.insertAdjacentHTML('afterbegin', navLinks.map(l => `<a href="${l.href}" class="nav-link font-semibold hover:text-emerald-500 transition-all duration-300 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800">${l.name}</a>`).join(''));
+                data: {
+                    personalInfo: { name: "Vineeth H Kumar", title: "Electronics Engineer | Embedded Enthusiast | Problem Solver", resume: "/Vineeth.pdf", email: "vineethkumar1703@gmail.com", socials: [ { name: "GitHub", url: "https://github.com/Vineeth1703", icon: "fa-brands fa-github" }, { name: "LinkedIn", url: "https://www.linkedin.com/in/vineeth-h-kumar-a7858a24b/", icon: "fa-brands fa-linkedin" }, { name: "Email", url: "mailto:vineethkumar1703@gmail.com", icon: "fa-solid fa-envelope" }, ], about: "I am an Electronics and Communication Engineering graduate with a deep passion for building intelligent embedded systems. I thrive at the intersection of hardware and software, leveraging my skills in circuit design, microcontroller programming, and IoT to create practical, smart solutions that tackle real-world challenges.", },
+                    skills: [ { name: 'Embedded C/C++', icon: 'fa-solid fa-microchip', level: 95 }, { name: 'Python', icon: 'fa-solid fa-code', level: 90 }, { name: 'VLSI Design', icon: 'fa-solid fa-robot', level: 85 }, { name: 'React.js & Web Dev', icon: 'fa-solid fa-paintbrush', level: 80 }, { name: 'IoT & Cloud', icon: 'fa-solid fa-satellite-dish', level: 88 }, { name: 'PCB Design (KiCad)', icon: 'fa-solid fa-tools', level: 92 }, { name: 'MATLAB/Simulink', icon: 'fa-solid fa-server', level: 85 }, { name: 'Git & GitHub', icon: 'fa-solid fa-database', level: 90 }, ],
+                    projects: [ { title: 'Smart Agri-Bot', description: 'An IoT-powered agricultural bot using ESP32 for precision seeding, real-time soil monitoring, and automated irrigation. This project involved complex sensor integration, motor control, and cloud data transmission, resulting in a 40% increase in operational efficiency compared to manual methods.', tags: ['ESP32', 'IoT', 'C++', 'Sensors', 'Automation', 'Firebase'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=Agri-Bot' }, { title: 'Real-Time Fall Detection System', description: 'Engineered a wearable device using an MPU6050 accelerometer/gyroscope and an ESP8266 microcontroller. The system uses a custom algorithm to detect falls with 98% accuracy and sends instant alerts to caregivers via a real-time web dashboard built with React and Firebase.', tags: ['MPU6050', 'IoT', 'Firebase', 'React', 'Wearable Tech'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=Fall+Detection' }, { title: 'FPGA Based 32-bit RISC CPU', description: 'Designed and implemented a 5-stage pipelined 32-bit RISC processor on a Xilinx Artix-7 FPGA. The project involved writing the entire architecture in Verilog, simulating instruction execution, and successfully running benchmark programs on the synthesized hardware.', tags: ['Verilog', 'FPGA', 'Xilinx', 'CPU Design', 'Pipelining'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=RISC+CPU' }, ],
+                    experience: [ { role: "Electronics Product Development Intern", company: "Experimind Labs Pvt Ltd", date: "June 2025 – July 2025", description: "Contributed to the full lifecycle of an electronics product, from schematic design and PCB layout to firmware development and testing. Developed the 'Anubhav Kit' for STEM labs." }, { role: "Electrical Maintenance Intern", company: "MESCOM", date: "Jul 3 2024 – Jul 20 2024", description: "Assisted in the daily monitoring and maintenance of a high-voltage electrical substation, gaining practical experience in power systems and safety protocols." }, ],
+                    education: [ { degree: "B.Tech in Electronics & Communication", institution: "Nitte Mahalinga Adyanthaya Memorial Institute of Technology (NMAMIT)", date: "2022 - 2026" }, { degree: "P.U.E (Pre-University Education)", institution: "Madeliene PU College", date: "2020 - 2022" }, { degree: "SSLC", institution: "Bethany Engish Medium High School", date: "2017-2020" }, ],
+                    processSteps: [ { id: 'discover', title: 'Discovery', icon: 'fa-solid fa-lightbulb', description: "It all starts with an idea. I work closely with stakeholders to understand the core problem, define project goals, and map out the requirements for a successful outcome." }, { id: 'design', title: 'Design', icon: 'fa-solid fa-pencil-ruler', description: "In this phase, I create system architectures, schematic diagrams, and user flow maps. The goal is to build a robust and scalable blueprint before writing a single line of code." }, { id: 'develop', title: 'Development', icon: 'fa-solid fa-laptop-code', description: "This is where the magic happens. I write clean, efficient code, develop firmware, build and test hardware prototypes, and integrate all components into a cohesive system." }, { id: 'deploy', title: 'Deployment', icon: 'fa-solid fa-rocket', description: "After rigorous testing, the solution is deployed. I monitor its performance, gather feedback, and provide ongoing support to ensure long-term success and reliability." }, ],
+                    testimonials: [ { quote: "Vineeth's attention to detail and deep understanding of embedded systems were critical to our project's success. A true professional.", author: "Project Lead, Experimind Labs" }, { quote: "An incredibly quick learner and a collaborative team player. Vineeth's problem-solving skills are top-notch.", author: "Mentor, MESCOM" }, { quote: "The fall detection system he designed is not just a concept; it's a life-saving tool. His passion for applying technology for good is inspiring.", author: "University Professor" }, ],
+                    navLinks: [ { name: 'About', href: '#about' }, { name: 'Skills', href: '#skills' }, { name: 'Process', href: '#process' }, { name: 'Projects', href: '#projects' }, { name: 'Experience', href: '#experience' }, { name: 'Contact', href: '#contact' } ]
+                },
                 
-                getEl('mobile-menu').innerHTML = navLinks.map(l => `<a href="${l.href}" class="nav-link block py-3 text-center font-medium hover:text-emerald-500 transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0">${l.name}</a>`).join('');
-                
-                getEl('footer-socials').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-3xl hover:text-emerald-500 transition-all duration-300 hover:scale-110"><i class="${s.icon}"></i></a>`).join('');
-                
-                getEl('current-year').textContent = new Date().getFullYear();
-                getEl('resume-button').href = personalInfo.resume;
-                
-                getEl('socials-container').innerHTML = personalInfo.socials.map(s => `<div class="magnetic-effect"><a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-4xl hover:text-emerald-500 transition-all duration-300 hover:scale-110"><i class="${s.icon}"></i></a></div>`).join('');
-                
-                getEl('about-content').innerHTML = `<p>${personalInfo.about}</p>`;
-                
-                // Enhanced skill cards
-                getEl('skills-grid').innerHTML = skills.map(s => `
-                    <div class="skill-card flex flex-col items-center p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 scroll-animate">
-                        <i class="${s.icon} text-6xl text-emerald-500 mb-6"></i>
-                        <h3 class="font-bold text-xl mb-4 text-center">${s.name}</h3>
-                        <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
-                            <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-3 rounded-full skill-bar" data-level="${s.level}%"></div>
-                        </div>
-                        <span class="text-sm text-gray-500 dark:text-gray-400 mt-2">${s.level}%</span>
-                    </div>
-                `).join('');
-                
-                // Enhanced project cards
-                getEl('projects-grid').innerHTML = projects.map((p, i) => `
-                    <div class="project-card bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden cursor-pointer scroll-animate border border-gray-100 dark:border-slate-700" data-project-index="${i}">
-                        <div class="relative overflow-hidden">
-                            <img src="${p.image}" alt="${p.title}" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-110" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                        </div>
-                        <div class="p-8">
-                            <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">${p.title}</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">${p.description}</p>
-                            <div class="flex flex-wrap gap-2">
-                                ${p.tags.slice(0, 3).map(tag => `<span class="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full">${tag}</span>`).join('')}
-                                ${p.tags.length > 3 ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-semibold px-3 py-1 rounded-full">+${p.tags.length - 3}</span>` : ''}
+                // --- DOM ELEMENTS ---
+                elements: {
+                    get: (id) => document.getElementById(id),
+                    query: (selector) => document.querySelector(selector),
+                    queryAll: (selector) => document.querySelectorAll(selector),
+                },
+
+                // --- INITIALIZATION ---
+                init() {
+                    window.addEventListener('load', () => {
+                        const loader = this.elements.get('loading-screen');
+                        loader.style.opacity = '0';
+                        loader.addEventListener('transitionend', () => loader.style.display = 'none');
+                        
+                        this.elements.get('main-content').classList.add('visible');
+                        
+                        this.applyTheme();
+                        this.renderContent();
+                        this.bindEvents();
+                        this.initAnimations();
+                    });
+                },
+
+                // --- CONTENT RENDERING ---
+                renderContent() {
+                    const { personalInfo, skills, projects, experience, education, processSteps, navLinks } = this.data;
+                    
+                    this.elements.get('desktop-nav').insertAdjacentHTML('afterbegin', navLinks.map(l => `<a href="${l.href}" class="nav-link font-semibold hover:text-emerald-500 transition-all duration-300 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800">${l.name}</a>`).join(''));
+                    this.elements.get('mobile-menu').innerHTML = navLinks.map(l => `<a href="${l.href}" class="nav-link block py-3 text-center font-medium hover:text-emerald-500 transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0">${l.name}</a>`).join('');
+                    
+                    this.elements.get('socials-container').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-4xl hover:text-emerald-500 transition-all duration-300 hover:scale-110" aria-label="${s.name}"><i class="${s.icon}"></i></a>`).join('');
+                    this.elements.get('footer-socials').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-3xl hover:text-emerald-500 transition-all duration-300 hover:scale-110" aria-label="${s.name}"><i class="${s.icon}"></i></a>`).join('');
+                    
+                    this.elements.get('current-year').textContent = new Date().getFullYear();
+                    this.elements.get('resume-button').href = personalInfo.resume;
+                    this.elements.get('about-content').innerHTML = `<p>${personalInfo.about}</p>`;
+                    
+                    this.elements.get('skills-grid').innerHTML = skills.map(s => `
+                        <div class="skill-card flex flex-col items-center p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 scroll-animate">
+                            <i class="${s.icon} text-6xl text-emerald-500 mb-6"></i>
+                            <h3 class="font-bold text-xl mb-4 text-center">${s.name}</h3>
+                            <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
+                                <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-3 rounded-full skill-bar" data-level="${s.level}%"></div>
                             </div>
-                        </div>
-                    </div>
-                `).join('');
-                
-                // Enhanced timeline
-                const journeyItems = [...experience, ...education];
-                getEl('experience').querySelector('.timeline-container').innerHTML = journeyItems.map(item => `
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-6 border border-gray-100 dark:border-slate-700">
-                            <h3 class="mb-2 font-bold text-xl text-gray-900 dark:text-white">${item.role || item.degree}</h3>
-                            <p class="text-sm font-semibold leading-snug tracking-wide text-emerald-500 mb-1">${item.company || item.institution}</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">${item.date}</p>
-                            ${item.description ? `<p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">${item.description}</p>` : ''}
-                        </div>
-                    </div>
-                `).join('');
-                
-                // Enhanced contact form
-                const form = getEl('contact-form');
-                form.action = `https://formsubmit.co/${personalInfo.email}`;
-                form.innerHTML = `
-                    <input type="hidden" name="_captcha" value="false" />
-                    <input type="hidden" name="_template" value="box" />
-                    <div class="magnetic-effect">
-                        <input type="text" name="name" placeholder="Your Name" required class="form-input" />
-                    </div>
-                    <div class="magnetic-effect">
-                        <input type="email" name="email" placeholder="Your Email" required class="form-input" />
-                    </div>
-                    <div class="magnetic-effect">
-                        <textarea name="message" rows="6" placeholder="Your Message" required class="form-input resize-none"></textarea>
-                    </div>
-                    <div class="magnetic-effect">
-                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-5 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95">
-                            Send Message
-                        </button>
-                    </div>
-                `;
-                
-                form.querySelectorAll('.form-input').forEach(el => el.classList.add(
-                    'w-full', 'p-5', 'rounded-xl', 'border', 'border-gray-300', 'dark:border-gray-600', 
-                    'bg-white/70', 'dark:bg-slate-800/70', 'focus:ring-2', 'focus:ring-emerald-500', 
-                    'focus:border-transparent', 'outline-none', 'transition-all', 'duration-300', 
-                    'focus:scale-105', 'text-lg'
-                ));
-            };
+                            <span class="text-sm text-gray-500 dark:text-gray-400 mt-2">${s.level}%</span>
+                        </div>`).join('');
 
-            const applyTheme = () => {
-                const wrapper = getEl('app-wrapper');
-                if (isDarkMode) {
-                    document.documentElement.classList.add('dark');
-                    wrapper.classList.add('dark-gradient');
-                    wrapper.classList.remove('bg-stone-100');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    wrapper.classList.remove('dark-gradient');
-                    wrapper.classList.add('bg-stone-100');
-                }
-                getEl('theme-icon').className = `fa-solid ${isDarkMode ? 'fa-sun' : 'fa-moon'}`;
-            };
+                    this.elements.get('projects-grid').innerHTML = projects.map((p, i) => `
+                        <div role="button" tabindex="0" class="project-card bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden cursor-pointer scroll-animate border border-gray-100 dark:border-slate-700" data-project-index="${i}">
+                            <div class="relative overflow-hidden"><img src="${p.image}" alt="${p.title}" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-110" /></div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">${p.title}</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">${p.description}</p>
+                                <div class="flex flex-wrap gap-2">
+                                    ${p.tags.slice(0, 3).map(tag => `<span class="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full">${tag}</span>`).join('')}
+                                    ${p.tags.length > 3 ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-semibold px-3 py-1 rounded-full">+${p.tags.length - 3}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>`).join('');
 
-            const toggleTheme = () => { 
-                isDarkMode = !isDarkMode; 
-                localStorage.setItem('darkMode', isDarkMode); 
-                applyTheme(); 
-            };
+                    const journeyItems = [...experience, ...education];
+                    this.elements.get('timeline-container').innerHTML = journeyItems.map(item => `
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-6 border border-gray-100 dark:border-slate-700">
+                                <h3 class="mb-2 font-bold text-xl text-gray-900 dark:text-white">${item.role || item.degree}</h3>
+                                <p class="text-sm font-semibold leading-snug tracking-wide text-emerald-500 mb-1">${item.company || item.institution}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">${item.date}</p>
+                                ${item.description ? `<p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">${item.description}</p>` : ''}
+                            </div>
+                        </div>`).join('');
 
-            const toggleMenu = () => { 
-                const menu = getEl('mobile-menu');
-                const icon = getEl('menu-toggle').querySelector('i');
-                
-                menu.classList.toggle('hidden'); 
-                icon.classList.toggle('fa-bars'); 
-                icon.classList.toggle('fa-times');
-                icon.style.transform = menu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-            };
-
-            const handleScroll = () => { 
-                const btn = getEl('scroll-to-top'); 
-                if (window.scrollY > 300) { 
-                    btn.classList.remove('opacity-0', 'pointer-events-none'); 
-                } else { 
-                    btn.classList.add('opacity-0', 'pointer-events-none'); 
-                } 
-            };
-
-            const openProjectModal = (project) => { 
-                const modal = getEl('project-modal'); 
-                getEl('modal-content').innerHTML = `
-                    <div class="p-10 relative">
-                        <button id="modal-close-btn" class="absolute top-6 right-6 text-3xl hover:text-emerald-500 transition-colors z-10">
-                            <i class="fa-solid fa-times-circle"></i>
-                        </button>
-                        <div class="relative overflow-hidden rounded-2xl mb-8">
-                            <img src="${project.image}" alt="${project.title}" class="w-full h-80 object-cover" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                        </div>
-                        <h3 class="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">${project.title}</h3>
-                        <div class="flex flex-wrap gap-3 mb-6">
-                            ${project.tags.map(tag => `<span class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-2 rounded-full">${tag}</span>`).join('')}
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">${project.description}</p>
-                        <div class="flex items-center gap-8">
-                            <a href="${project.sourceUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-emerald-500 transition-colors font-semibold text-lg">
-                                <i class="fa-brands fa-github text-2xl"></i> Source Code
-                            </a>
-                            <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-emerald-500 transition-colors font-semibold text-lg">
-                                <i class="fa-solid fa-external-link-alt text-xl"></i> Live Demo
-                            </a>
-                        </div>
-                    </div>
-                `; 
-                modal.classList.remove('pointer-events-none', 'opacity-0'); 
-                getEl('modal-content').classList.remove('scale-95'); 
-                getEl('modal-close-btn').addEventListener('click', closeProjectModal); 
-            };
-
-            const closeProjectModal = () => { 
-                const modal = getEl('project-modal'); 
-                modal.classList.add('opacity-0'); 
-                getEl('modal-content').classList.add('scale-95'); 
-                setTimeout(() => modal.classList.add('pointer-events-none'), 300); 
-            };
-
-            const updateProcessContent = () => { 
-                const contentContainer = getEl('process-content'); 
-                const step = processSteps.find(s => s.id === activeProcessTab); 
-                contentContainer.innerHTML = `
-                    <div class="fade-in-content">
-                        <div class="flex items-center mb-6">
-                            <i class="${step.icon} text-3xl text-emerald-500 mr-4"></i>
-                            <h3 class="text-3xl font-bold">${step.title}</h3>
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">${step.description}</p>
-                    </div>
-                `; 
-                document.querySelectorAll('.process-tab').forEach(t => { 
-                    t.classList.toggle('bg-emerald-500', t.dataset.id === activeProcessTab); 
-                    t.classList.toggle('text-white', t.dataset.id === activeProcessTab); 
-                    t.classList.toggle('shadow-lg', t.dataset.id === activeProcessTab);
-                }); 
-            };
-
-            const cycleTestimonials = () => { 
-                const slider = getEl('testimonial-slider'); 
-                const testimonial = testimonials[activeTestimonial]; 
-                slider.innerHTML = `
-                    <div class="absolute inset-0 fade-in-content">
-                        <i class="fa-solid fa-quote-left text-5xl text-emerald-500 mb-8"></i>
-                        <p class="text-2xl italic text-gray-600 dark:text-gray-300 leading-relaxed mb-6">"${testimonial.quote}"</p>
-                        <p class="text-xl font-semibold text-gray-700 dark:text-gray-200">- ${testimonial.author}</p>
-                    </div>
-                `; 
-                activeTestimonial = (activeTestimonial + 1) % testimonials.length; 
-            };
-
-            function initThreeJS() { 
-                const container = getEl('3d-container'); 
-                if (!container || !window.THREE) return; 
-                
-                const scene = new THREE.Scene(); 
-                const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000); 
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); 
-                
-                renderer.setSize(container.clientWidth, container.clientHeight); 
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
-                container.appendChild(renderer.domElement); 
-                
-                const geometry = new THREE.BoxGeometry(3, 3, 3); 
-                const material = new THREE.MeshStandardMaterial({ color: 0x34D399, wireframe: true, wireframeLinewidth: 2 }); 
-                const cube = new THREE.Mesh(geometry, material); 
-                scene.add(cube); 
-                
-                scene.add(new THREE.AmbientLight(0xffffff, 0.6)); 
-                const dirLight = new THREE.DirectionalLight(0xffffff, 1.2); 
-                dirLight.position.set(-3, 6, 3); 
-                scene.add(dirLight); 
-                
-                camera.position.z = 6; 
-                
-                const animate = () => { 
-                    requestAnimationFrame(animate); 
-                    cube.rotation.x += 0.008; 
-                    cube.rotation.y += 0.008; 
-                    renderer.render(scene, camera); 
-                }; 
-                animate(); 
-                
-                window.addEventListener('resize', () => { 
-                    if (container.clientWidth > 0) { 
-                        camera.aspect = container.clientWidth / container.clientHeight; 
-                        camera.updateProjectionMatrix(); 
-                        renderer.setSize(container.clientWidth, container.clientHeight); 
-                    } 
-                }); 
-            }
-
-            function initMagneticEffect() { 
-                document.querySelectorAll('.magnetic-effect').forEach(magnet => { 
-                    const child = magnet.children[0]; 
-                    if (!child) return; 
+                    this.elements.get('process-tabs').innerHTML = processSteps.map(step => `
+                        <button data-id="${step.id}" class="process-tab p-5 text-left font-semibold transition-all duration-300 w-full rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 mb-2">
+                            <i class="${step.icon} mr-4 w-6 text-center text-xl"></i> 
+                            <span class="text-lg">${step.title}</span>
+                        </button>`).join('');
                     
-                    magnet.addEventListener('mousemove', (e) => { 
-                        const { clientX, clientY } = e; 
-                        const { height, width, left, top } = magnet.getBoundingClientRect(); 
-                        const x = clientX - (left + width / 2); 
-                        const y = clientY - (top + height / 2); 
-                        child.style.transition = `transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)`; 
-                        child.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.05)`; 
-                    }); 
+                    const form = this.elements.get('contact-form');
+                    form.action = `https://formsubmit.co/${personalInfo.email}`;
+                    form.innerHTML = `
+                        <input type="hidden" name="_captcha" value="false" />
+                        <input type="hidden" name="_template" value="box" />
+                        <div><input type="text" name="name" placeholder="Your Name" required class="form-input" /></div>
+                        <div><input type="email" name="email" placeholder="Your Email" required class="form-input" /></div>
+                        <div><textarea name="message" rows="6" placeholder="Your Message" required class="form-input resize-none"></textarea></div>
+                        <div><button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-5 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95">Send Message</button></div>`;
                     
-                    magnet.addEventListener('mouseleave', () => { 
-                        child.style.transition = `transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)`; 
-                        child.style.transform = 'translate(0, 0) scale(1)'; 
-                    }); 
-                }); 
-            }
+                    form.querySelectorAll('.form-input').forEach(el => el.classList.add('w-full', 'p-5', 'rounded-xl', 'border', 'border-gray-300', 'dark:border-gray-600', 'bg-white/70', 'dark:bg-slate-800/70', 'focus:ring-2', 'focus:ring-emerald-500', 'focus:border-transparent', 'outline-none', 'transition-all', 'duration-300', 'focus:scale-[1.02]', 'text-lg'));
+                },
 
-            function initScrollAnimations() { 
-                const observer = new IntersectionObserver((entries) => { 
-                    entries.forEach(entry => { 
-                        if (entry.isIntersecting) { 
-                            entry.target.classList.add('visible'); 
-                            const skillBar = entry.target.querySelector('.skill-bar'); 
-                            if (skillBar) skillBar.style.width = skillBar.dataset.level; 
-                        } 
-                    }); 
-                }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }); 
-                
-                document.querySelectorAll('.scroll-animate, .timeline-item').forEach(el => observer.observe(el)); 
-            }
-
-            function init() {
-                isDarkMode = localStorage.getItem('darkMode') !== 'false'; 
-                applyTheme();
-                renderContent();
-                
-                // Enhanced typing animation
-                new Typed('#type-animation', { 
-                    strings: [personalInfo.title, 'A Lifelong Learner and Innovator', 'Building the Future with Code'], 
-                    typeSpeed: 60, 
-                    backSpeed: 40, 
-                    loop: true, 
-                    backDelay: 3000,
-                    fadeOut: true,
-                    fadeOutClass: 'typed-fade-out',
-                    fadeOutDelay: 300,
-                });
-                
-                getEl('theme-toggle').addEventListener('click', toggleTheme);
-                getEl('menu-toggle').addEventListener('click', toggleMenu);
-                getEl('scroll-to-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-                getEl('project-modal').addEventListener('click', closeProjectModal);
-                
-                // Enhanced smooth scroll for nav links
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const targetId = this.getAttribute('href');
-                        const targetElement = document.querySelector(targetId);
-                        if(targetElement) {
-                           const offsetTop = targetElement.offsetTop - 80;
-                           window.scrollTo({ 
-                               top: offsetTop,
-                               behavior: 'smooth' 
-                           });
+                // --- EVENT BINDING ---
+                bindEvents() {
+                    this.elements.get('theme-toggle').addEventListener('click', () => this.toggleTheme());
+                    this.elements.get('menu-toggle').addEventListener('click', () => this.toggleMenu());
+                    this.elements.get('scroll-to-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+                    this.elements.get('project-modal').addEventListener('click', () => this.closeProjectModal());
+                    
+                    // Event delegation for nav links, project cards, and process tabs
+                    document.body.addEventListener('click', e => {
+                        const navLink = e.target.closest('.nav-link');
+                        if (navLink) {
+                            e.preventDefault();
+                            this.handleNavClick(navLink);
                         }
-                        if (getEl('mobile-menu').contains(this) && !getEl('mobile-menu').classList.contains('hidden')) {
-                            toggleMenu();
+                        
+                        const projectCard = e.target.closest('.project-card');
+                        if (projectCard) {
+                            this.openProjectModal(this.data.projects[projectCard.dataset.projectIndex]);
+                        }
+                        
+                        const processTab = e.target.closest('.process-tab');
+                        if (processTab) {
+                            this.config.activeProcessTab = processTab.dataset.id;
+                            this.updateProcessContent();
                         }
                     });
-                });
+
+                    window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+                },
+
+                // --- UI & THEME LOGIC ---
+                applyTheme() {
+                    const wrapper = this.elements.get('app-wrapper');
+                    if (this.config.isDarkMode) {
+                        document.documentElement.classList.add('dark');
+                        wrapper.classList.add('dark-gradient');
+                        wrapper.classList.remove('bg-stone-100');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        wrapper.classList.remove('dark-gradient');
+                        wrapper.classList.add('bg-stone-100');
+                    }
+                    this.elements.get('theme-icon').className = `fa-solid ${this.config.isDarkMode ? 'fa-sun' : 'fa-moon'}`;
+                },
+                toggleTheme() {
+                    this.config.isDarkMode = !this.config.isDarkMode;
+                    localStorage.setItem('darkMode', this.config.isDarkMode);
+                    this.applyTheme();
+                },
+                toggleMenu() {
+                    const menu = this.elements.get('mobile-menu');
+                    const icon = this.elements.get('menu-toggle').querySelector('i');
+                    menu.classList.toggle('hidden');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                },
+                handleNavClick(link) {
+                    const targetElement = this.elements.query(link.getAttribute('href'));
+                    if (targetElement) {
+                        window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
+                    }
+                    const mobileMenu = this.elements.get('mobile-menu');
+                    if (mobileMenu.contains(link) && !mobileMenu.classList.contains('hidden')) {
+                        this.toggleMenu();
+                    }
+                },
+                handleScroll() {
+                    const btn = this.elements.get('scroll-to-top');
+                    if (window.scrollY > 300) {
+                        btn.classList.remove('opacity-0', 'pointer-events-none');
+                    } else {
+                        btn.classList.add('opacity-0', 'pointer-events-none');
+                    }
+                },
                 
-                document.querySelectorAll('[data-project-index]').forEach(card => 
-                    card.addEventListener('click', (e) => openProjectModal(projects[e.currentTarget.dataset.projectIndex]))
-                );
-                
-                getEl('process-tabs').innerHTML = processSteps.map(step => `
-                    <button data-id="${step.id}" class="process-tab p-5 text-left font-semibold transition-all duration-300 w-full rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 mb-2">
-                        <i class="${step.icon} mr-4 w-6 text-center text-xl"></i> 
-                        <span class="text-lg">${step.title}</span>
-                    </button>
-                `).join('');
-                
-                document.querySelectorAll('.process-tab').forEach(tab => 
-                    tab.addEventListener('click', (e) => { 
-                        activeProcessTab = e.currentTarget.dataset.id; 
-                        updateProcessContent(); 
-                    })
-                );
-                
-                updateProcessContent();
-                cycleTestimonials(); 
-                setInterval(cycleTestimonials, 6000);
-                
-                initThreeJS(); 
-                initMagneticEffect(); 
-                initScrollAnimations();
-                
-                window.addEventListener('scroll', handleScroll, { passive: true });
-                
-                // Enhanced loading screen
-                setTimeout(() => { 
-                    const loader = getEl('loading-screen'); 
-                    loader.style.opacity = '0'; 
-                    loader.style.transform = 'scale(0.9)';
-                    loader.addEventListener('transitionend', () => loader.style.display = 'none'); 
-                    getEl('main-content').classList.remove('opacity-0'); 
-                    getEl('main-content').classList.add('visible'); 
-                }, 1500);
-            }
-            
-            init();
+                // --- MODAL & DYNAMIC CONTENT ---
+                openProjectModal(project) {
+                    const modal = this.elements.get('project-modal');
+                    this.elements.get('modal-content').innerHTML = `
+                        <div class="p-10 relative">
+                            <button id="modal-close-btn" class="absolute top-6 right-6 text-3xl hover:text-emerald-500 transition-colors z-10" aria-label="Close project details"><i class="fa-solid fa-times-circle"></i></button>
+                            <img src="${project.image}" alt="${project.title}" class="w-full h-80 object-cover rounded-2xl mb-8" />
+                            <h3 class="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">${project.title}</h3>
+                            <div class="flex flex-wrap gap-3 mb-6">${project.tags.map(tag => `<span class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-2 rounded-full">${tag}</span>`).join('')}</div>
+                            <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">${project.description}</p>
+                            <div class="flex items-center gap-8">
+                                <a href="${project.sourceUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-emerald-500 transition-colors font-semibold text-lg"><i class="fa-brands fa-github text-2xl"></i> Source Code</a>
+                                <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-emerald-500 transition-colors font-semibold text-lg"><i class="fa-solid fa-external-link-alt text-xl"></i> Live Demo</a>
+                            </div>
+                        </div>`;
+                    modal.classList.remove('pointer-events-none', 'opacity-0');
+                    this.elements.get('modal-content').classList.remove('scale-95');
+                    this.elements.get('modal-close-btn').addEventListener('click', () => this.closeProjectModal());
+                },
+                closeProjectModal() {
+                    const modal = this.elements.get('project-modal');
+                    modal.classList.add('opacity-0');
+                    this.elements.get('modal-content').classList.add('scale-95');
+                    setTimeout(() => modal.classList.add('pointer-events-none'), 300);
+                },
+                updateProcessContent() {
+                    const step = this.data.processSteps.find(s => s.id === this.config.activeProcessTab);
+                    this.elements.get('process-content').innerHTML = `
+                        <div class="fade-in-content">
+                            <div class="flex items-center mb-6"><i class="${step.icon} text-3xl text-emerald-500 mr-4"></i><h3 class="text-3xl font-bold">${step.title}</h3></div>
+                            <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">${step.description}</p>
+                        </div>`;
+                    this.elements.queryAll('.process-tab').forEach(t => {
+                        const isActive = t.dataset.id === this.config.activeProcessTab;
+                        t.classList.toggle('bg-emerald-500', isActive);
+                        t.classList.toggle('text-white', isActive);
+                        t.classList.toggle('shadow-lg', isActive);
+                    });
+                },
+                cycleTestimonials() {
+                    const testimonial = this.data.testimonials[this.config.activeTestimonial];
+                    this.elements.get('testimonial-slider').innerHTML = `
+                        <div class="absolute inset-0 fade-in-content">
+                            <i class="fa-solid fa-quote-left text-5xl text-emerald-500 mb-8"></i>
+                            <p class="text-2xl italic text-gray-600 dark:text-gray-300 leading-relaxed mb-6">"${testimonial.quote}"</p>
+                            <p class="text-xl font-semibold text-gray-700 dark:text-gray-200">- ${testimonial.author}</p>
+                        </div>`;
+                    this.config.activeTestimonial = (this.config.activeTestimonial + 1) % this.data.testimonials.length;
+                },
+
+                // --- ANIMATIONS & EFFECTS ---
+                initAnimations() {
+                    this.initTyped();
+                    this.initThreeJS();
+                    this.initCustomCursor();
+                    this.initScrollAnimations();
+                    this.initTimelineAnimation();
+                    this.updateProcessContent();
+                    this.cycleTestimonials();
+                    setInterval(() => this.cycleTestimonials(), this.config.testimonialInterval);
+                },
+                initTyped() {
+                    new Typed('#type-animation', {
+                        strings: [this.data.personalInfo.title, 'A Lifelong Learner and Innovator', 'Building the Future with Code'],
+                        typeSpeed: 60, backSpeed: 40, loop: true, backDelay: 3000, fadeOut: true,
+                    });
+                },
+                initThreeJS() {
+                    const container = this.elements.get('3d-container');
+                    if (!container || !window.THREE) return;
+
+                    const scene = new THREE.Scene();
+                    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                    container.appendChild(renderer.domElement);
+
+                    const geometry = new THREE.BoxGeometry(3, 3, 3);
+                    const material = new THREE.MeshStandardMaterial({ color: 0x34D399, wireframe: true, wireframeLinewidth: 2 });
+                    const cube = new THREE.Mesh(geometry, material);
+                    scene.add(cube);
+                    
+                    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+                    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+                    dirLight.position.set(-3, 6, 3);
+                    scene.add(dirLight);
+                    camera.position.z = 6;
+
+                    // Mouse interaction logic
+                    const mouse = new THREE.Vector2();
+                    window.addEventListener('mousemove', (event) => {
+                        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                    });
+
+                    const animate = () => {
+                        requestAnimationFrame(animate);
+                        // Lerp for smooth rotation towards mouse position
+                        cube.rotation.y = THREE.MathUtils.lerp(cube.rotation.y, (mouse.x * Math.PI) / 10, 0.1);
+                        cube.rotation.x = THREE.MathUtils.lerp(cube.rotation.x, (mouse.y * Math.PI) / 10, 0.1);
+                        renderer.render(scene, camera);
+                    };
+                    animate();
+                    
+                    window.addEventListener('resize', () => {
+                        if (container.clientWidth > 0) {
+                            camera.aspect = container.clientWidth / container.clientHeight;
+                            camera.updateProjectionMatrix();
+                            renderer.setSize(container.clientWidth, container.clientHeight);
+                        }
+                    });
+                },
+                initCustomCursor() {
+                    const cursorDot = this.elements.query('.cursor-dot');
+                    const cursorCircle = this.elements.query('.cursor-circle');
+                    
+                    window.addEventListener('mousemove', e => {
+                        cursorDot.style.left = `${e.clientX}px`;
+                        cursorDot.style.top = `${e.clientY}px`;
+                        cursorCircle.style.left = `${e.clientX}px`;
+                        cursorCircle.style.top = `${e.clientY}px`;
+
+                        // Add grow effect on interactive elements
+                        const isInteractive = e.target.closest('a, button, .project-card, .process-tab');
+                        document.body.classList.toggle('cursor-grow', !!isInteractive);
+                    });
+                },
+                initScrollAnimations() {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                                const skillBar = entry.target.querySelector('.skill-bar');
+                                if (skillBar) skillBar.style.width = skillBar.dataset.level;
+                                if (entry.target.classList.contains('timeline-item')) observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+                    
+                    this.elements.queryAll('.scroll-animate, .timeline-item').forEach(el => observer.observe(el));
+                },
+                initTimelineAnimation() {
+                    const timelineContainer = this.elements.get('timeline-container');
+                    const timelineLine = timelineContainer.style;
+                    timelineLine.setProperty('--timeline-line-height', '0px');
+
+                    const observer = new IntersectionObserver(entries => {
+                        if (entries[0].isIntersecting) {
+                            window.addEventListener('scroll', this.updateTimelineLine);
+                        } else {
+                            window.removeEventListener('scroll', this.updateTimelineLine);
+                        }
+                    }, { threshold: 0, rootMargin: "-100px 0px -100px 0px" });
+                    
+                    observer.observe(timelineContainer);
+                },
+                // Bound `this` for the event listener
+                updateTimelineLine: function() {
+                    const container = PortfolioApp.elements.get('timeline-container');
+                    const line = container.querySelector('::after'); // This is a pseudo-selector, handled via CSS var
+                    
+                    const { top, height } = container.getBoundingClientRect();
+                    const scrollY = window.innerHeight;
+                    
+                    // Calculate how much of the container is visible
+                    const visibleHeight = Math.max(0, Math.min(height, scrollY - top));
+                    const progress = Math.min(1, visibleHeight / height);
+
+                    // Update the CSS custom property for the ::after pseudo-element's height
+                    container.style.setProperty('--after-height', `${progress * 100}%`);
+                }.bind(this)
+            };
+
+            PortfolioApp.init();
         });
     </script>
 </body>
