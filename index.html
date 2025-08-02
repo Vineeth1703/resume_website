@@ -1,448 +1,703 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vineeth H Kumar | ECE Engineer & Developer</title>
+    <meta name="description" content="Portfolio of Vineeth H Kumar, an Electronics and Communication Engineer specializing in embedded systems, IoT, and web development.">
+    <title>Vineeth H Kumar | Portfolio</title>
     
-    <meta name="description" content="The professional portfolio of Vineeth H Kumar, an Electronics & Communication Engineer specializing in embedded systems and full-stack development.">
-    <meta name="keywords" content="Vineeth H Kumar, ECE, Embedded Systems, Full Stack Developer, Portfolio, React, Node.js, ESP32">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.45/dist/lenis.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script>
-        tailwind.config = { darkMode: 'class' }
+        tailwind.config = {
+            darkMode: 'class',
+        }
     </script>
     
     <style>
-        :root {
-            --bg-color: #f8fafc; --text-primary: #020617; --text-secondary: #475569; --accent-primary: #10b981; --accent-secondary: #0d9488; --card-bg: #ffffff; --border-color: rgba(0,0,0,0.07); --particle-color: 0x475569;
-        }
-        .dark {
-            --bg-color: #020617; --text-primary: #e2e8f0; --text-secondary: #94a3b8; --accent-primary: #34d399; --accent-secondary: #2dd4bf; --card-bg: #0f172a; --border-color: rgba(255,255,255,0.1); --particle-color: 0x34d399;
+        html {
+            scroll-behavior: smooth;
         }
 
-        html { scroll-behavior: auto !important; }
-        body { 
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            opacity: 0;
-            transition: opacity 1s ease, background-color 0.5s ease;
-            font-family: 'Inter', sans-serif; 
+        .nav-active {
+            @apply text-emerald-600 dark:text-emerald-400 font-bold;
         }
-        body.loaded { opacity: 1; }
-        
-        #loading-screen { transition: opacity 0.5s ease 0.5s; }
-        #loader-percentage { font-variant-numeric: tabular-nums; }
 
-        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent-primary); }
-        .cursor-circle { width: 40px; height: 40px; border: 2px solid var(--accent-primary); }
-        .cursor-dot, .cursor-circle { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; transition: background-color 0.5s ease, border-color 0.5s ease; }
-        .cursor-grow .cursor-circle { transform: translate(-50%, -50%) scale(1.5); background-color: var(--accent-primary); opacity: 0.2; border-color: transparent; }
+        .section-title { 
+            font-size: 2.25rem; /* 36px */
+            line-height: 2.5rem; /* 40px */
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem; /* 48px */
+            background-image: linear-gradient(to right, #10b981, #14b8a6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-        .hero-char, .section-title span { display: inline-block; }
-        .hero-caret { display: inline-block; width: 10px; height: 4.5rem; background-color: var(--accent-primary); margin-left: 10px; vertical-align: middle; transition: background-color 0.5s ease; }
-
-        .card-base { background-color: var(--card-bg); border-radius: 1rem; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05); }
-        .project-card { transform-style: preserve-3d; }
-        .project-card > * { transform: translateZ(20px); }
-
-        .timeline-container::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); top: 0; bottom: 0; width: 4px; background-color: var(--card-bg); border-radius: 2px; }
-        .timeline-progress { position: absolute; left: 50%; transform: translateX(-50%); top: 0; width: 4px; background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary)); border-radius: 2px; height: 0; }
-        .timeline-item { opacity: 0; }
-        .timeline-item:nth-child(odd) { position: relative; width: 50%; padding-right: 60px; text-align: right; }
-        .timeline-item:nth-child(even) { position: relative; width: 50%; padding-left: 60px; text-align: left; }
-        .timeline-dot { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); height: 20px; width: 20px; border: 4px solid var(--accent-primary); border-radius: 50%; background: var(--bg-color); z-index: 10; transition: background-color 0.5s ease, border-color 0.5s ease; }
-        
-        .nav-link.active { color: var(--accent-primary); font-weight: 700; }
-        #mobile-menu .nav-link { opacity: 0; }
-        
-        #testimonials-slider { position: relative; min-height: 250px; }
-        .testimonial-item { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s ease-in-out; }
-        .testimonial-item.active { opacity: 1; }
-
+        .cursor-dot, .cursor-circle {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: #10b981;
+        }
+        .cursor-circle {
+            width: 40px; height: 40px;
+            border: 2px solid #10b981;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.3s, background-color 0.3s;
+        }
+        .cursor-grow .cursor-circle {
+            transform: translate(-50%, -50%) scale(1.5);
+            background-color: rgba(16, 185, 129, 0.2);
+            border-color: transparent;
+        }
         @media (max-width: 768px) {
             .cursor-dot, .cursor-circle { display: none; }
-            .hero-caret { height: 3rem; }
-            .timeline-container::before, .timeline-progress { left: 10px; }
-            .timeline-item { width: 100%; left: 0 !important; padding-left: 50px; padding-right: 0; text-align: left !important; margin-bottom: 30px; }
-            .timeline-dot { left: 10px; }
         }
-        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+        @keyframes gentle-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.95); opacity: 0.7; }
+        }
+        .loader { 
+            animation: gentle-pulse 1.8s ease-in-out infinite; 
+        }
+
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
         
-        #webgl-canvas { position: fixed; top: 0; left: 0; outline: none; z-index: -1; }
+        #main-content.visible { 
+            opacity: 1; 
+            animation: fadeInUp 0.8s ease-out forwards; 
+        }
+
+        .scroll-animate { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+        }
+        .scroll-animate.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        
+        .skill-bar { 
+            width: 0; 
+            transition: width 1.5s ease-out 0.3s; 
+        }
+
+        @keyframes content-fade { 
+            from { opacity: 0; transform: translateY(15px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        .fade-in-content { 
+            animation: content-fade 0.5s ease forwards; 
+        }
+
+        .skill-card, .project-card, .cert-card, .service-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .skill-card:hover, .cert-card:hover, .service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(52, 211, 153, 0.15);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+        }
+        .dark .project-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.1);
+        }
+
+        .timeline-container { position: relative; }
+        .timeline-container::before { 
+            content: ''; 
+            position: absolute; 
+            left: 50%; 
+            transform: translateX(-50%);
+            top: 0; 
+            bottom: 0; 
+            width: 4px; 
+            background-color: #374151;
+            border-radius: 2px;
+        }
+        .timeline-container::after {
+            content: ''; 
+            position: absolute; 
+            left: 50%; 
+            transform: translateX(-50%);
+            top: 0; 
+            width: 4px; 
+            background: linear-gradient(to bottom, #10b981, #14b8a6);
+            border-radius: 2px;
+            height: var(--after-height, 0);
+            transition: height 0.2s linear;
+        }
+        
+        .timeline-item { 
+            position: relative; width: 50%; margin-bottom: 60px; opacity: 0; 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+        }
+        .timeline-item:nth-child(odd) { left: 0; padding-right: 60px; text-align: right; transform: translateX(-50px); }
+        .timeline-item:nth-child(even) { left: 50%; padding-left: 60px; transform: translateX(50px); }
+        .timeline-item.visible { opacity: 1; transform: translateX(0); }
+        
+        .timeline-dot { 
+            position: absolute; top: 10px; left: 50%; transform: translateX(-50%); 
+            height: 20px; width: 20px; border: 4px solid #10b981; 
+            border-radius: 50%; background: #f1f5f9; z-index: 10;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+            transition: transform 0.3s;
+        }
+        .timeline-item.visible .timeline-dot { transform: translateX(-50%) scale(1.1); }
+        .dark .timeline-dot { background: #1e293b; }
+
+        @media (max-width: 767px) {
+            .timeline-container::before, .timeline-container::after { left: 30px; transform: none; }
+            .timeline-item { width: 100%; left: 0 !important; padding-left: 70px; padding-right: 20px; text-align: left !important; }
+            .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { transform: translateY(30px); }
+            .timeline-dot { left: 30px; transform: translateX(-50%); }
+        }
+
+        .modal-backdrop { backdrop-filter: blur(10px); }
+        .dark-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
+
+        #home { flex-direction: column; }
+        @media (min-width: 768px) { #home { flex-direction: row; } }
+        
+        #skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        @media (min-width: 768px) { #skills-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+        
+        #services-grid, #certs-grid, #projects-grid { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        @media (min-width: 768px) { #projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } #certs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } #services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+        @media (min-width: 1024px) { #projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } #certs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } #services-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        
+        @media (prefers-reduced-motion: reduce) {
+          html { scroll-behavior: auto; }
+          *, *::before, *::after {
+            animation-duration: 1ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 1ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
     </style>
 </head>
-<body>
-    <canvas id="webgl-canvas"></canvas>
+<body class="bg-stone-100 text-gray-800 dark:text-gray-200 transition-colors duration-500">
+    
     <div class="cursor-dot"></div>
     <div class="cursor-circle"></div>
 
-    <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-gray-900 z-[1000]">
-        <div id="loader-container"><div id="loader-percentage" class="text-6xl font-bold font-mono text-emerald-400">0%</div></div>
-    </div>
-
     <div id="app-wrapper">
-        <main id="main-content">
-            <header class="sticky top-0 z-50 p-4 bg-white/70 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg border-b border-[var(--border-color)] transition-colors">
+        <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 z-[1000] transition-opacity duration-500">
+            <div class="loader text-6xl font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">V H K</div>
+        </div>
+
+        <main id="main-content" class="opacity-0">
+            <header class="sticky top-0 z-50 p-4 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-lg border-b border-gray-200/20 dark:border-gray-700/20">
                 <div class="container mx-auto flex justify-between items-center">
-                    <a href="#home" class="nav-link-brand text-2xl font-bold bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">Vineeth H Kumar</a>
-                    <nav class="hidden md:flex items-center gap-2">
-                        <div id="desktop-nav-links" class="flex items-center gap-1"></div>
-                        <button id="theme-toggle" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700" aria-label="Toggle dark mode">
-                            <i id="theme-icon" class="fa-solid fa-moon text-lg text-[var(--text-secondary)]"></i>
+                    <a href="#home" class="nav-link text-2xl font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">Vineeth H Kumar</a>
+                    
+                    <nav id="desktop-nav" class="hidden md:flex items-center gap-6 text-lg">
+                        <a href="#about" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">About</a>
+                        <a href="#services" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Services</a>
+                        <a href="#skills" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Skills</a>
+                        <a href="#projects" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Projects</a>
+                        <a href="#experience" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Experience</a>
+                        <a href="#education" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Education</a>
+                        <a href="#contact" class="nav-link bg-emerald-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Contact</a>
+                        
+                        <button id="theme-toggle" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-110" aria-label="Toggle dark mode">
+                            <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
                         </button>
                     </nav>
-                    <div class="md:hidden"><button id="menu-toggle" class="z-50 p-2" aria-label="Toggle menu"><i class="fa-solid fa-bars fa-lg"></i></button></div>
+                    
+                    <div class="md:hidden">
+                        <button id="menu-toggle" class="z-50 p-2" aria-label="Toggle mobile menu">
+                            <i class="fa-solid fa-bars fa-lg transition-transform duration-300"></i>
+                        </button>
+                    </div>
                 </div>
-                <div id="mobile-menu" class="hidden md:hidden mt-4 p-6 bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg rounded-xl"></div>
+                <div id="mobile-menu" class="hidden md:hidden mt-4 p-6 bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg rounded-xl shadow-2xl border border-gray-200/20 dark:border-gray-700/20">
+                </div>
             </header>
 
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <section id="home" class="min-h-screen flex items-center justify-center text-center md:text-left py-16">
-                    <div class="flex flex-col items-center md:items-start w-full">
-                        <h1 id="hero-title" class="text-5xl md:text-6xl lg:text-8xl font-extrabold mb-4 leading-tight text-[var(--text-primary)]"></h1>
-                        <p id="hero-tagline" class="text-xl md:text-2xl text-[var(--text-secondary)] mb-10 max-w-3xl"></p>
-                        <div class="flex items-center gap-6 mb-10">
-                            <a id="cta-work" href="#projects" class="nav-link-cta inline-block px-8 py-4 bg-[var(--accent-primary)] text-white font-bold rounded-xl shadow-xl hover:bg-[var(--accent-secondary)] transition-colors">See My Work</a>
-                            <a id="cta-resume" href="#" download class="font-bold text-[var(--accent-primary)] hover:underline">Download Resume</a>
-                        </div>
-                        <div id="socials-container" class="flex flex-wrap justify-center md:justify-start gap-8"></div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <section id="home" class="min-h-screen flex items-center justify-center text-center md:text-left py-16 gap-12">
+                    <div class="flex flex-col items-center md:items-start w-full md:w-3/5 lg:w-1/2">
+                        <h1 class="text-5xl md:text-6xl lg:text-8xl font-extrabold mb-6 leading-tight">
+                            Hey, I'm <span class="bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">Vineeth H Kumar</span>
+                        </h1>
+                        <p id="type-animation" class="text-lg md:text-xl text-gray-500 dark:text-gray-400 mb-10 max-w-2xl h-16"></p>
+                        <div id="socials-container" class="flex flex-wrap justify-center md:justify-start gap-8 mb-10"></div>
+                        <a id="resume-button" href="#" download class="inline-block px-10 py-5 bg-emerald-600 text-white font-bold rounded-xl shadow-xl hover:bg-emerald-700 transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                            Download Resume
+                        </a>
                     </div>
+                    <div id="3d-container" class="w-full md:w-2/5 lg:w-1/2 h-96 md:h-[500px]"></div>
                 </section>
                 
-                <section id="about" class="py-32">
-                    <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>About</span> <span>Me</span></h2>
-                    <p id="about-content" class="max-w-4xl mx-auto text-center text-xl text-[var(--text-secondary)] leading-relaxed"></p>
+                <section id="about" class="py-32 scroll-animate">
+                    <h2 class="section-title">About Me</h2>
+                    <div id="about-content" class="max-w-4xl mx-auto text-center text-xl text-gray-600 dark:text-gray-300 leading-relaxed"></div>
                 </section>
-                
+
+                <section id="services" class="py-32 scroll-animate">
+                    <h2 class="section-title">What I Offer</h2>
+                    <div id="services-grid" class="grid max-w-6xl mx-auto gap-10"></div>
+                </section>
+
                 <section id="skills" class="py-32">
-                    <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>Technical</span> <span>Skills</span></h2>
-                    <div id="skills-grid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+                    <h2 class="section-title">Technical Skills</h2>
+                    <div id="skills-grid" class="grid gap-10 max-w-6xl mx-auto"></div>
                 </section>
 
                 <section id="projects" class="py-32">
-                    <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>Featured</span> <span>Projects</span></h2>
-                    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto gap-12"></div>
+                    <h2 class="section-title">Featured Projects</h2>
+                    <div id="projects-grid" class="grid max-w-7xl mx-auto gap-12"></div>
                 </section>
 
                 <section id="experience" class="py-32">
-                    <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>Work</span> <span>Experience</span></h2>
-                    <div id="experience-timeline" class="timeline-container max-w-6xl mx-auto py-16 px-4">
-                        <div class="timeline-progress"></div>
-                        <div id="experience-timeline-wrapper"></div>
-                    </div>
+                    <h2 class="section-title">Work Experience</h2>
+                    <div id="experience-timeline" class="timeline-container max-w-6xl mx-auto py-16 px-4"></div>
+                </section>
+
+                <section id="education" class="py-32 scroll-animate">
+                    <h2 class="section-title">Education</h2>
+                    <div id="education-timeline" class="timeline-container max-w-6xl mx-auto py-16 px-4"></div>
                 </section>
                 
-                <section id="education" class="py-32">
-                     <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>Education</span></h2>
-                     <div id="education-timeline" class="timeline-container max-w-6xl mx-auto py-16 px-4">
-                         <div class="timeline-progress-edu"></div>
-                         <div id="education-timeline-wrapper"></div>
-                     </div>
+                <section id="certifications" class="py-32 scroll-animate">
+                    <h2 class="section-title">Certifications & Achievements</h2>
+                    <div id="certs-grid" class="grid max-w-6xl mx-auto gap-10"></div>
                 </section>
 
-                <section id="achievements" class="py-32">
-                     <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>Achievements</span> <span>&</span> <span>Awards</span></h2>
-                     <div id="achievements-grid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+                <section id="testimonials" class="py-32 scroll-animate">
+                    <h2 class="section-title">What Others Say</h2>
+                    <div id="testimonial-slider" class="max-w-4xl mx-auto text-center relative h-60"></div>
                 </section>
 
-                <section id="testimonials" class="py-32">
-                    <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>Testimonials</span></h2>
-                    <div id="testimonials-slider" class="max-w-4xl mx-auto text-center"></div>
-                </section>
-                
-                <section id="blog" class="py-32">
-                    <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>My</span> <span>Writings</span></h2>
-                    <div id="blog-grid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-                </section>
-
-                <section id="contact" class="py-32">
-                     <h2 class="section-title text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent"><span>Get</span> <span>In</span> <span>Touch</span></h2>
-                    <p class="text-xl text-[var(--text-secondary)] text-center mb-16 max-w-3xl mx-auto">I'm currently seeking new opportunities and collaborations. Feel free to send me a message!</p>
-                    <form id="contact-form" method="POST" class="max-w-2xl mx-auto space-y-8"></form>
+                <section id="contact" class="py-32 scroll-animate">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 text-center mb-16 max-w-3xl mx-auto">
+                        I'm currently open to new opportunities and collaborations. Feel free to send me a message!
+                    </p>
+                    <form id="contact-form" class="max-w-2xl mx-auto space-y-8"></form>
                 </section>
             </div>
 
-            <footer class="py-12 border-t border-[var(--border-color)] bg-white/50 dark:bg-slate-900/90 backdrop-blur-sm transition-colors">
-                <div class="container mx-auto text-center text-[var(--text-secondary)]">
+            <footer class="py-12 border-t border-gray-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+                <div class="container mx-auto text-center text-gray-500 dark:text-gray-400">
                     <div id="footer-socials" class="flex justify-center gap-8 mb-6"></div>
                     <p class="text-lg">&copy; <span id="current-year"></span> Vineeth H Kumar. All Rights Reserved.</p>
+                    <p class="text-sm mt-3">Designed & Built with ❤️</p>
                 </div>
             </footer>
         </main>
         
-        <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-[var(--accent-primary)] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center z-50 opacity-0 pointer-events-none hover:bg-[var(--accent-secondary)]">
+        <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-emerald-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-90 hover:bg-emerald-700">
             <i class="fa-solid fa-arrow-up text-lg"></i>
         </button>
+
+        <div id="project-modal" class="fixed inset-0 modal-backdrop bg-black/80 flex items-center justify-center z-[999] p-6 opacity-0 pointer-events-none transition-all duration-300">
+            <div id="modal-content" class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()"></div>
+        </div>
     </div>
     
     <script>
-        const isTouchDevice = () => 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        document.addEventListener('DOMContentLoaded', () => {
 
-        const portfolioData = {
-            personalInfo: { name: "Vineeth H Kumar", title: "Vineeth H Kumar", tagline: "Bridging electronics with intelligent software.", resume: "/Vineeth_Resume.pdf", email: "vineethkumar1703@gmail.com", about: "I am an Electronics and Communication Engineering graduate with a deep passion for building intelligent embedded systems. I thrive at the intersection of hardware and software, leveraging my skills in circuit design, microcontroller programming, and IoT to create practical, smart solutions that tackle real-world challenges.", socials: [ { name: "GitHub", url: "https://github.com/Vineeth1703", icon: "fa-brands fa-github" }, { name: "LinkedIn", url: "https://www.linkedin.com/in/vineeth-h-kumar-a7858a24b/", icon: "fa-brands fa-linkedin" }, { name: "Email", url: "mailto:vineethkumar1703@gmail.com", icon: "fa-solid fa-envelope" }, ], },
-            skills: { "Languages": ["C", "C++", "Python", "JavaScript", "Verilog", "HTML/CSS"], "Hardware & Embedded": ["8051", "ESP32", "Arduino", "Raspberry Pi", "PCB Design (KiCad)"], "Tools & Software": ["MATLAB", "Simulink", "Fusion 360", "Xilinx Vivado", "Git & GitHub"], "Web & Cloud": ["React", "Node.js", "Express.js", "Firebase", "REST APIs"], },
-            projects: [ { title: 'Smart Agri-Bot', role: 'Solo Developer', tags:['Personal'], description: 'An IoT-powered agricultural bot using ESP32 for precision seeding, real-time soil monitoring, and automated irrigation.', tech: ['ESP32', 'IoT', 'C++', 'Firebase'], image: 'https://placehold.co/600x400/10b981/ecfdf5?text=Agri-Bot', repoUrl: '#', liveUrl: '#' }, { title: 'Real-Time Fall Detection', role: 'Team Project', tags:['Academic'], description: 'A wearable device using an MPU6050 and ESP8266 to detect falls with 98% accuracy and send real-time alerts.', tech: ['MPU6050', 'IoT', 'React'], image: 'https://placehold.co/600x400/10b981/ecfdf5?text=Fall+Detection', repoUrl: '#', liveUrl: '#' }, { title: '32-bit RISC CPU on FPGA', role: 'Solo Developer', tags:['Academic'], description: 'Designed and implemented a 5-stage pipelined 32-bit RISC processor on a Xilinx Artix-7 FPGA using Verilog.', tech: ['Verilog', 'FPGA', 'Xilinx'], image: 'https://placehold.co/600x400/10b981/ecfdf5?text=RISC+CPU', repoUrl: '#', liveUrl: null }, ],
-            experience: [ { role: "Electronics Product Development Intern", company: "Experimind Labs Pvt Ltd", date: "June 2025 – July 2025", contributions: ["Contributed to the full lifecycle of the 'Anubhav Kit' for STEM labs.", "Designed schematics and PCB layouts.", "Developed firmware and conducted rigorous testing."] }, { role: "Electrical Maintenance Intern", company: "MESCOM", date: "July 2024", contributions: ["Assisted in daily monitoring of a high-voltage electrical substation.", "Gained practical experience in power systems and safety protocols."] }, ],
-            education: [ { degree: "B.Tech in Electronics & Communication", institution: "NMAMIT, Nitte", date: "2022 - 2026", relevantCourses: ["VLSI Design", "Embedded Systems", "Digital Signal Processing", "Computer Networks"] }, { degree: "Pre-University Education (P.U.E)", institution: "Madeliene PU College", date: "2020 - 2022", relevantCourses: ["Physics", "Chemistry", "Mathematics", "Computer Science"] }, ],
-            achievements: [ { title: "Smart India Hackathon 2024 Winner", description: "Led a team to win the top prize for developing an innovative IoT solution for agricultural management.", icon: "fa-solid fa-trophy" }, { title: "Published Paper on Embedded AI", description: "Co-authored a paper on 'Efficient AI Models for Edge Devices' accepted at an IEEE conference.", icon: "fa-solid fa-file-alt" }, { title: "Top 1% in College Coding Competition", description: "Achieved the highest rank in the annual inter-departmental coding competition.", icon: "fa-solid fa-code" }, { title: "Certified Embedded Systems Professional", description: "Completed a 120-hour certification course from a recognized institute.", icon: "fa-solid fa-certificate" } ],
-            testimonials: [ { quote: "Vineeth's dedication and deep understanding of embedded systems were invaluable. He's a natural problem-solver.", author: "Dr. Ananya Sharma", designation: "Professor, NMAMIT" }, { quote: "A quick learner and a fantastic team player. Vineeth consistently delivered high-quality work during his internship.", author: "Rohan Verma", designation: "Lead Engineer, Experimind Labs" }, { quote: "His passion for technology is infectious. The fall detection project showcases his ability to create impactful solutions.", author: "Project Mentor", designation: "MESCOM" } ],
-            blogPosts: [ { title: "Optimizing C++ for Microcontrollers", date: "July 20, 2025", url: "#", snippet: "A deep dive into memory management and performance tuning for resource-constrained devices..." }, { title: "My Journey with PCB Design in KiCad", date: "June 15, 2025", url: "#", snippet: "From schematic to fabrication, here are the key lessons I learned while designing my first complex PCB..." }, { title: "Why Every ECE Student Should Learn React", date: "May 01, 2025", url: "#", snippet: "Bridging the gap between hardware and a beautiful user interface is a modern superpower..." } ],
-            navLinks: [ { name: 'About', href: '#about' }, { name: 'Skills', href: '#skills' }, { name: 'Projects', href: '#projects' }, { name: 'Experience', href: '#experience' }, { name: 'Education', href: '#education' }, {name: 'Achievements', href: '#achievements'}, { name: 'Contact', href: '#contact' } ]
-        };
+            const PortfolioApp = {
+                config: {
+                    activeTestimonial: 0,
+                    isDarkMode: localStorage.getItem('darkMode') !== 'false',
+                    testimonialInterval: 6000,
+                },
 
-        // --- Main Application Class ---
-        class MainApp {
-            constructor() { this.init(); }
-            init() {
-                this.themeManager = new ThemeManager();
-                gsap.registerPlugin(ScrollTrigger);
-                this.initLenis();
-                this.populateContent();
-                this.bindEvents();
-                this.initAnimations();
-                if (!isTouchDevice()) this.initDesktopEffects();
-                this.initPreloader();
-            }
-            initDesktopEffects() { this.webgl = new WebGLManager(); new CustomCursor(); new MagneticButtonManager(); this.initProjectTilt(); }
-            initPreloader() { const onComplete = () => { const el = document.getElementById('loading-screen'); gsap.to(el, { opacity: 0, duration: 0.5, onComplete: () => el.style.display = 'none' }); document.body.classList.add('loaded'); }; let p={v:0}; gsap.to(p, { v:1, duration:1.5, ease:'power2.out', onUpdate:()=>document.getElementById('loader-percentage').textContent=`${Math.floor(p.v*100)}%`, onComplete }); }
-            
-            populateContent() {
-                this.populateNav();
-                this.populateHero();
-                this.populateSkills();
-                this.populateProjects();
-                this.populateExperience();
-                this.populateEducation();
-                this.populateAchievements();
-                this.populateTestimonials();
-                this.populateBlog();
-                this.populateContactForm();
-                document.getElementById('about-content').textContent = portfolioData.personalInfo.about;
-                document.getElementById('current-year').textContent = new Date().getFullYear();
-            }
+                data: {
+                    personalInfo: { name: "Vineeth H Kumar", title: "Electronics Engineer | Embedded Enthusiast | Problem Solver", resume: "/Vineeth.pdf", email: "vineethkumar1703@gmail.com", socials: [ { name: "GitHub", url: "https://github.com/Vineeth1703", icon: "fa-brands fa-github" }, { name: "LinkedIn", url: "https://www.linkedin.com/in/vineeth-h-kumar-a7858a24b/", icon: "fa-brands fa-linkedin" }, { name: "Email", url: "mailto:vineethkumar1703@gmail.com", icon: "fa-solid fa-envelope" }, ], about: "I am an Electronics and Communication Engineering graduate with a deep passion for building intelligent embedded systems. I thrive at the intersection of hardware and software, leveraging my skills in circuit design, microcontroller programming, and IoT to create practical, smart solutions that tackle real-world challenges.", },
+                    services: [ { title: "Embedded Systems", description: "Full-cycle development from concept and schematic design to firmware programming (C/C++) for microcontrollers like ESP32 and ARM.", icon: "fa-solid fa-microchip" }, { title: "IoT & Cloud Solutions", description: "Building connected devices that communicate with the cloud (Firebase, AWS IoT) for real-time data monitoring and control.", icon: "fa-solid fa-satellite-dish" }, { title: "PCB Design", description: "Creating professional, multi-layered printed circuit boards using KiCad, optimized for performance and manufacturability.", icon: "fa-solid fa-ruler-combined" }, { title: "Prototyping & Testing", description: "Rapidly building and testing hardware prototypes to validate designs and ensure reliability before production.", icon: "fa-solid fa-vial-circle-check" }, ],
+                    skills: [ { name: 'Embedded C/C++', icon: 'fa-solid fa-microchip', level: 95 }, { name: 'Python', icon: 'fa-solid fa-code', level: 90 }, { name: 'VLSI Design', icon: 'fa-solid fa-robot', level: 85 }, { name: 'React.js & Web Dev', icon: 'fa-solid fa-paintbrush', level: 80 }, { name: 'IoT & Cloud', icon: 'fa-solid fa-satellite-dish', level: 88 }, { name: 'PCB Design (KiCad)', icon: 'fa-solid fa-tools', level: 92 }, { name: 'MATLAB/Simulink', icon: 'fa-solid fa-server', level: 85 }, { name: 'Git & GitHub', icon: 'fa-solid fa-database', level: 90 }, ],
+                    projects: [ { title: 'Smart Agri-Bot', description: 'An IoT-powered agricultural bot using ESP32 for precision seeding, real-time soil monitoring, and automated irrigation. This project involved complex sensor integration, motor control, and cloud data transmission, resulting in a 40% increase in operational efficiency compared to manual methods.', tags: ['ESP32', 'IoT', 'C++', 'Sensors', 'Automation', 'Firebase'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=Agri-Bot' }, { title: 'Real-Time Fall Detection System', description: 'Engineered a wearable device using an MPU6050 accelerometer/gyroscope and an ESP8266 microcontroller. The system uses a custom algorithm to detect falls with 98% accuracy and sends instant alerts to caregivers via a real-time web dashboard built with React and Firebase.', tags: ['MPU6050', 'IoT', 'Firebase', 'React', 'Wearable Tech'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=Fall+Detection' }, { title: 'FPGA Based 32-bit RISC CPU', description: 'Designed and implemented a 5-stage pipelined 32-bit RISC processor on a Xilinx Artix-7 FPGA. The project involved writing the entire architecture in Verilog, simulating instruction execution, and successfully running benchmark programs on the synthesized hardware.', tags: ['Verilog', 'FPGA', 'Xilinx', 'CPU Design', 'Pipelining'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=RISC+CPU' }, ],
+                    experience: [ { role: "Electronics Product Development Intern", company: "Experimind Labs Pvt Ltd", date: "June 2025 – July 2025", description: "Contributed to the full lifecycle of an electronics product, from schematic design and PCB layout to firmware development and testing. Developed the 'Anubhav Kit' for STEM labs." }, { role: "Electrical Maintenance Intern", company: "MESCOM", date: "Jul 3 2024 – Jul 20 2024", description: "Assisted in the daily monitoring and maintenance of a high-voltage electrical substation, gaining practical experience in power systems and safety protocols." }, ],
+                    education: [ { degree: "B.Tech in Electronics & Communication", institution: "Nitte Mahalinga Adyanthaya Memorial Institute of Technology (NMAMIT)", date: "2022 - 2026" }, { degree: "P.U.E (Pre-University Education)", institution: "Madeliene PU College", date: "2020 - 2022" }, { degree: "SSLC", institution: "Bethany Engish Medium High School", date: "2017-2020" }, ],
+                    certifications: [ { name: "Embedded Systems Essentials with Arm", platform: "Coursera", icon: "fa-solid fa-microchip" }, { name: "NPTEL: The Joy of Computing using Python", platform: "SWAYAM", icon: "fa-solid fa-code" }, { name: "Hackathon Winner: Smart India Hackathon", platform: "Internal College Round", icon: "fa-solid fa-trophy" } ],
+                    testimonials: [ { quote: "Vineeth's attention to detail and deep understanding of embedded systems were critical to our project's success. A true professional.", author: "Project Lead, Experimind Labs" }, { quote: "An incredibly quick learner and a collaborative team player. Vineeth's problem-solving skills are top-notch.", author: "Mentor, MESCOM" }, { quote: "The fall detection system he designed is not just a concept; it's a life-saving tool. His passion for applying technology for good is inspiring.", author: "University Professor" }, ],
+                },
+                
+                elements: {
+                    get: (id) => document.getElementById(id),
+                    query: (selector) => document.querySelector(selector),
+                    queryAll: (selector) => document.querySelectorAll(selector),
+                },
 
-            populateNav() {
-                const linksHTML = portfolioData.navLinks.map(l => `<a href="${l.href}" class="nav-link font-semibold hover:text-[var(--accent-secondary)] px-3 py-2">${l.name}</a>`).join('');
-                document.getElementById('desktop-nav-links').innerHTML = linksHTML;
-                document.getElementById('mobile-menu').innerHTML = linksHTML;
-            }
+                init() {
+                    window.addEventListener('load', () => {
+                        const loader = this.elements.get('loading-screen');
+                        loader.style.opacity = '0';
+                        loader.addEventListener('transitionend', () => loader.style.display = 'none');
+                        
+                        this.elements.get('main-content').classList.add('visible');
 
-            populateHero() {
-                const { personalInfo } = portfolioData;
-                document.getElementById('hero-title').innerHTML = personalInfo.title.split(' ').map(w => `<span>${w.split('').map(c => `<span class="hero-char">${c}</span>`).join('')}</span>`).join(' ') + ' <span class="hero-caret"></span>';
-                document.getElementById('hero-tagline').textContent = personalInfo.tagline;
-                document.getElementById('cta-resume').href = personalInfo.resume;
-                const socialHTML = (s) => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="magnetic-button text-3xl text-[var(--text-secondary)] hover:text-[var(--accent-primary)]" aria-label="${s.name}"><i class="${s.icon} magnetic-button-text"></i></a>`;
-                document.getElementById('socials-container').innerHTML = personalInfo.socials.map(socialHTML).join('');
-                document.getElementById('footer-socials').innerHTML = personalInfo.socials.map(socialHTML).join('');
-            }
-            
-            populateSkills() {
-                document.getElementById('skills-grid').innerHTML = Object.entries(portfolioData.skills).map(([category, skills]) => `
-                    <div class="card-base p-8">
-                        <h3 class="text-2xl font-bold mb-6 text-[var(--accent-primary)]">${category}</h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            ${skills.map(skill => `<p class="text-[var(--text-secondary)]">${skill}</p>`).join('')}
-                        </div>
-                    </div>`).join('');
-            }
+                        // Initialize EmailJS with your Public Key
+                        emailjs.init({ publicKey: '6mem2A73WQv18mbLr' });
+                        
+                        this.applyTheme();
+                        this.renderContent();
+                        this.bindEvents();
+                        this.initAnimations();
+                    });
+                },
 
-            populateProjects() {
-                document.getElementById('projects-grid').innerHTML = portfolioData.projects.map(p => `
-                    <div class="project-card card-base overflow-hidden" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-speed="200" data-tilt-perspective="1000">
-                        <div class="relative overflow-hidden"><img src="${p.image}" alt="${p.title}" class="w-full h-56 object-cover" /></div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-2"><h3 class="text-xl font-bold">${p.title}</h3><span class="text-xs font-semibold bg-sky-400/10 text-sky-500 px-2 py-1 rounded-full">${p.role}</span></div>
-                            <div class="flex gap-1 mb-4">${p.tags.map(t => `<span class="text-xs font-semibold bg-amber-400/10 text-amber-500 px-2 py-1 rounded-full">${t}</span>`).join('')}</div>
-                            <p class="text-[var(--text-secondary)] text-sm mb-4">${p.description}</p>
-                            <div class="flex flex-wrap gap-2 mb-4">${p.tech.map(t => `<span class="bg-gray-400/10 text-[var(--text-secondary)] text-xs font-medium px-2 py-1 rounded">${t}</span>`).join('')}</div>
-                            <div class="flex gap-4 border-t border-[var(--border-color)] pt-4">
-                                <a href="${p.repoUrl}" class="font-semibold hover:text-[var(--accent-primary)]">GitHub Repo</a>
-                                ${p.liveUrl ? `<a href="${p.liveUrl}" class="font-semibold hover:text-[var(--accent-primary)]">Live Demo</a>` : ''}
+                renderContent() {
+                    const { personalInfo, services, skills, projects, experience, education, certifications } = this.data;
+                    
+                    const mobileNavLinks = [
+                        { name: 'About', href: '#about' }, { name: 'Services', href: '#services' }, { name: 'Skills', href: '#skills' }, { name: 'Projects', href: '#projects' }, { name: 'Experience', href: '#experience' }, { name: 'Education', href: '#education' }
+                    ];
+                    this.elements.get('mobile-menu').innerHTML = mobileNavLinks.map(l => `<a href="${l.href}" class="nav-link block py-3 text-center text-lg font-medium hover:text-emerald-500 transition-colors border-b border-gray-200 dark:border-gray-700">${l.name}</a>`).join('') + `<div class="mt-4"><a href="#contact" class="nav-link block w-full text-center bg-emerald-500 text-white font-semibold px-5 py-3 rounded-lg hover:bg-emerald-600 transition-all duration-300">Contact Me</a></div>`;
+                    
+                    this.elements.get('socials-container').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-4xl hover:text-emerald-500 transition-all duration-300 hover:scale-110" aria-label="${s.name}"><i class="${s.icon}"></i></a>`).join('');
+                    this.elements.get('footer-socials').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-3xl hover:text-emerald-500 transition-all duration-300 hover:scale-110" aria-label="${s.name}"><i class="${s.icon}"></i></a>`).join('');
+                    
+                    this.elements.get('current-year').textContent = new Date().getFullYear();
+                    this.elements.get('resume-button').href = personalInfo.resume;
+                    this.elements.get('about-content').innerHTML = `<p>${personalInfo.about}</p>`;
+                    
+                    this.elements.get('services-grid').innerHTML = services.map(s => `
+                        <div class="service-card flex flex-col items-start text-left p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 scroll-animate">
+                            <i class="${s.icon} text-5xl text-emerald-500 mb-6"></i>
+                            <h3 class="font-bold text-2xl mb-3">${s.title}</h3>
+                            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">${s.description}</p>
+                        </div>`).join('');
+
+                    this.elements.get('skills-grid').innerHTML = skills.map(s => `
+                        <div class="skill-card flex flex-col items-center p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 scroll-animate">
+                            <i class="${s.icon} text-6xl text-emerald-500 mb-6"></i>
+                            <h3 class="font-bold text-xl mb-4 text-center">${s.name}</h3>
+                            <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
+                                <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-3 rounded-full skill-bar" data-level="${s.level}%"></div>
                             </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400 mt-2">${s.level}%</span>
+                        </div>`).join('');
+
+                    this.elements.get('projects-grid').innerHTML = projects.map((p, i) => `
+                        <div role="button" tabindex="0" class="project-card bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden cursor-pointer scroll-animate border border-gray-100 dark:border-slate-700" data-project-index="${i}">
+                            <div class="relative overflow-hidden"><img src="${p.image}" alt="${p.title}" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-110" /></div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">${p.title}</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">${p.description}</p>
+                                <div class="flex flex-wrap gap-2">
+                                    ${p.tags.slice(0, 3).map(tag => `<span class="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full">${tag}</span>`).join('')}
+                                    ${p.tags.length > 3 ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-semibold px-3 py-1 rounded-full">+${p.tags.length - 3}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>`).join('');
+                    
+                    const createTimelineHTML = (items) => items.map(item => `
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-6 border border-gray-100 dark:border-slate-700">
+                                <h3 class="mb-2 font-bold text-xl text-gray-900 dark:text-white">${item.role || item.degree}</h3>
+                                <p class="text-sm font-semibold leading-snug tracking-wide text-emerald-500 mb-1">${item.company || item.institution}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">${item.date}</p>
+                                ${item.description ? `<p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">${item.description}</p>` : ''}
+                            </div>
+                        </div>`).join('');
+
+                    this.elements.get('experience-timeline').innerHTML = createTimelineHTML(experience);
+                    this.elements.get('education-timeline').innerHTML = createTimelineHTML(education);
+                    
+                    this.elements.get('certs-grid').innerHTML = certifications.map(cert => `
+                        <div class="cert-card flex flex-col items-center justify-center text-center p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700">
+                             <i class="${cert.icon} text-6xl text-emerald-500 mb-5"></i>
+                             <h3 class="font-bold text-xl mb-2">${cert.name}</h3>
+                             <p class="text-md text-gray-500 dark:text-gray-400">${cert.platform}</p>
                         </div>
-                    </div>`).join('');
-            }
-            
-            populateExperience() { this.populateTimeline('#experience-timeline-wrapper', portfolioData.experience, 'contributions'); }
-            populateEducation() { this.populateTimeline('#education-timeline-wrapper', portfolioData.education, 'relevantCourses'); }
-            populateTimeline(wrapperSelector, data, detailKey) {
-                 document.querySelector(wrapperSelector).innerHTML = data.map(item => `
-                    <div class="timeline-item mb-12">
-                        <div class="timeline-dot"></div>
-                        <div class="card-base p-6">
-                            <h3 class="font-bold text-xl">${item.role || item.degree}</h3>
-                            <p class="text-sm font-semibold text-[var(--accent-primary)] mb-1">${item.company || item.institution}</p>
-                            <p class="text-sm text-[var(--text-secondary)] mb-3">${item.date}</p>
-                            <ul class="list-disc list-inside space-y-1 text-sm text-[var(--text-secondary)]">
-                                ${item[detailKey].map(d => `<li>${d}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>`).join('');
-            }
+                    `).join('');
+                    
+                    const form = this.elements.get('contact-form');
+                    form.innerHTML = `
+                        <div><input type="text" name="from_name" placeholder="Your Name" required class="form-input" /></div>
+                        <div><input type="email" name="from_email" placeholder="Your Email" required class="form-input" /></div>
+                        <div><textarea name="message" rows="6" placeholder="Your Message" required class="form-input resize-none"></textarea></div>
+                        <div><button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-5 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95">Send Message</button></div>`;
+                    
+                    form.querySelectorAll('.form-input').forEach(el => el.classList.add('w-full', 'p-5', 'rounded-xl', 'border', 'border-gray-300', 'dark:border-gray-600', 'bg-white/70', 'dark:bg-slate-800/70', 'focus:ring-2', 'focus:ring-emerald-500', 'focus:border-transparent', 'outline-none', 'transition-all', 'duration-300', 'focus:scale-[1.02]', 'text-lg'));
+                },
 
-            populateAchievements() {
-                document.getElementById('achievements-grid').innerHTML = portfolioData.achievements.map(a => `
-                    <div class="card-base p-6 flex items-start gap-6">
-                        <i class="${a.icon} text-3xl text-[var(--accent-primary)] mt-1"></i>
-                        <div>
-                            <h3 class="font-bold text-xl mb-1">${a.title}</h3>
-                            <p class="text-[var(--text-secondary)]">${a.description}</p>
-                        </div>
-                    </div>
-                `).join('');
-            }
+                bindEvents() {
+                    this.elements.get('theme-toggle').addEventListener('click', () => this.toggleTheme());
+                    this.elements.get('menu-toggle').addEventListener('click', () => this.toggleMenu());
+                    this.elements.get('scroll-to-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+                    this.elements.get('project-modal').addEventListener('click', () => this.closeProjectModal());
+                    
+                    this.elements.get('contact-form').addEventListener('submit', (e) => this.handleContactSubmit(e));
+                    
+                    document.body.addEventListener('click', e => {
+                        const navLink = e.target.closest('.nav-link');
+                        if (navLink) {
+                            e.preventDefault();
+                            this.handleNavClick(navLink);
+                        }
+                        
+                        const projectCard = e.target.closest('.project-card');
+                        if (projectCard) this.openProjectModal(this.data.projects[projectCard.dataset.projectIndex]);
+                    });
 
-            populateTestimonials() {
-                const slider = document.getElementById('testimonials-slider');
-                slider.innerHTML = `
-                    <div id="testimonial-content" class="relative min-h-[150px]"></div>
-                    <div class="mt-8 flex justify-center gap-4">
-                        <button id="prev-testimonial" class="w-12 h-12 rounded-full border border-[var(--border-color)] hover:bg-[var(--card-bg)]"><i class="fa fa-arrow-left"></i></button>
-                        <button id="next-testimonial" class="w-12 h-12 rounded-full border border-[var(--border-color)] hover:bg-[var(--card-bg)]"><i class="fa fa-arrow-right"></i></button>
-                    </div>
-                `;
-                new TestimonialSlider(portfolioData.testimonials);
-            }
+                    window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+                },
 
-            populateBlog() {
-                 document.getElementById('blog-grid').innerHTML = portfolioData.blogPosts.map(p => `
-                    <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="card-base block p-6 hover:shadow-2xl hover:-translate-y-2 transition-transform duration-300">
-                        <p class="text-sm text-[var(--text-secondary)] mb-2">${p.date}</p>
-                        <h3 class="font-bold text-xl mb-3">${p.title}</h3>
-                        <p class="text-[var(--text-secondary)] mb-4">${p.snippet}</p>
-                        <span class="font-semibold text-[var(--accent-primary)]">Read More &rarr;</span>
-                    </a>
-                 `).join('');
-            }
-            
-            populateContactForm() {
-                const form = document.getElementById('contact-form');
-                form.action = `https://formsubmit.co/${portfolioData.personalInfo.email}`;
-                form.innerHTML = `
-                    <input type="hidden" name="_captcha" value="false" /><input type="hidden" name="_template" value="box" />
-                    <div class="form-input-wrapper"><input type="text" name="name" placeholder="Your Name" required class="form-input w-full p-5 card-base focus:ring-0 outline-none border-transparent focus:border-[var(--accent-primary)]" /></div>
-                    <div class="form-input-wrapper"><input type="email" name="email" placeholder="Your Email" required class="form-input w-full p-5 card-base focus:ring-0 outline-none border-transparent focus:border-[var(--accent-primary)]" /></div>
-                    <div class="form-input-wrapper"><textarea name="message" rows="6" placeholder="Your Message" required class="form-input w-full p-5 card-base focus:ring-0 outline-none border-transparent focus:border-[var(--accent-primary)] resize-none"></textarea></div>
-                    <div><button type="submit" class="w-full bg-[var(--accent-primary)] hover:bg-[var(--accent-secondary)] text-white font-bold px-8 py-5 rounded-xl shadow-xl transition-colors">Send Message</button></div>
-                `;
-            }
+                handleContactSubmit(event) {
+                    event.preventDefault();
+                    const form = event.target;
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalBtnText = submitBtn.textContent;
+                    
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Sending...';
 
-            initProjectTilt() { VanillaTilt.init(document.querySelectorAll("[data-tilt]")); }
-            
-            bindEvents() {
-                const menuToggle = document.getElementById('menu-toggle');
-                const mobileMenu = document.getElementById('mobile-menu');
-                menuToggle.addEventListener('click', () => {
-                    const isOpening = mobileMenu.classList.contains('hidden');
-                    mobileMenu.classList.toggle('hidden');
-                    menuToggle.querySelector('i').classList.toggle('fa-bars');
-                    menuToggle.querySelector('i').classList.toggle('fa-times');
-                    if (isOpening) gsap.fromTo(mobileMenu.querySelectorAll('.nav-link'), { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.05, delay: 0.1 });
-                });
-            }
+                    // These values are now updated with your credentials.
+                    emailjs.sendForm('service_hgfjfzm', 'template_cxp5lg1', form)
+                        .then(() => {
+                            console.log('SUCCESS!');
+                            alert('Your message has been sent successfully!');
+                            form.reset();
+                        }, (error) => {
+                            console.log('FAILED...', error);
+                            alert(`Failed to send the message. Please try again. Error: ${error.text}`);
+                        })
+                        .finally(() => {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = originalBtnText;
+                        });
+                },
 
-            initLenis() {
-                this.lenis = new Lenis();
-                gsap.ticker.add((time) => this.lenis.raf(time * 1000));
-                
-                document.addEventListener('click', e => {
-                    const link = e.target.closest('.nav-link, .nav-link-brand, .nav-link-cta');
-                    if(link) {
-                        e.preventDefault();
-                        const target = document.querySelector(link.getAttribute('href'));
-                        if (target) this.lenis.scrollTo(target, { offset: -80 });
-                        if (document.getElementById('mobile-menu').contains(e.target)) document.getElementById('menu-toggle').click();
+                applyTheme() {
+                    const body = document.body;
+                    if (this.config.isDarkMode) {
+                        document.documentElement.classList.add('dark');
+                        body.classList.add('dark-gradient');
+                        body.classList.remove('bg-stone-100');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        body.classList.remove('dark-gradient');
+                        body.classList.add('bg-stone-100');
                     }
-                });
-                document.getElementById('scroll-to-top').addEventListener('click', () => this.lenis.scrollTo(0));
-            }
+                    this.elements.get('theme-icon').className = `fa-solid ${this.config.isDarkMode ? 'fa-sun' : 'fa-moon'}`;
+                },
+                toggleTheme() {
+                    this.config.isDarkMode = !this.config.isDarkMode;
+                    localStorage.setItem('darkMode', this.config.isDarkMode);
+                    this.applyTheme();
+                },
+                toggleMenu() {
+                    const menu = this.elements.get('mobile-menu');
+                    const icon = this.elements.get('menu-toggle').querySelector('i');
+                    menu.classList.toggle('hidden');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                },
+                handleNavClick(link) {
+                    const targetElement = this.elements.query(link.getAttribute('href'));
+                    if (targetElement) {
+                        window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
+                    }
+                    const mobileMenu = this.elements.get('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        this.toggleMenu();
+                    }
+                },
+                handleScroll() {
+                    const btn = this.elements.get('scroll-to-top');
+                    btn.classList.toggle('opacity-0', window.scrollY <= 300);
+                    btn.classList.toggle('pointer-events-none', window.scrollY <= 300);
+                },
+                
+                openProjectModal(project) {
+                    const modal = this.elements.get('project-modal');
+                    this.elements.get('modal-content').innerHTML = `
+                        <div class="p-10 relative">
+                            <button id="modal-close-btn" class="absolute top-6 right-6 text-3xl hover:text-emerald-500 transition-colors z-10" aria-label="Close project details"><i class="fa-solid fa-times-circle"></i></button>
+                            <img src="${project.image}" alt="${project.title}" class="w-full h-80 object-cover rounded-2xl mb-8" />
+                            <h3 class="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">${project.title}</h3>
+                            <div class="flex flex-wrap gap-3 mb-6">${project.tags.map(tag => `<span class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-2 rounded-full">${tag}</span>`).join('')}</div>
+                            <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">${project.description}</p>
+                            <div class="flex items-center gap-8">
+                                <a href="${project.sourceUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-emerald-500 transition-colors font-semibold text-lg"><i class="fa-brands fa-github text-2xl"></i> Source Code</a>
+                                <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-emerald-500 transition-colors font-semibold text-lg"><i class="fa-solid fa-external-link-alt text-xl"></i> Live Demo</a>
+                            </div>
+                        </div>`;
+                    modal.classList.remove('pointer-events-none', 'opacity-0');
+                    this.elements.get('modal-content').classList.remove('scale-95');
+                    this.elements.get('modal-close-btn').addEventListener('click', () => this.closeProjectModal());
+                },
+                closeProjectModal() {
+                    const modal = this.elements.get('project-modal');
+                    modal.classList.add('opacity-0');
+                    this.elements.get('modal-content').classList.add('scale-95');
+                    setTimeout(() => modal.classList.add('pointer-events-none'), 300);
+                },
+                cycleTestimonials() {
+                    const testimonial = this.data.testimonials[this.config.activeTestimonial];
+                    this.elements.get('testimonial-slider').innerHTML = `
+                        <div class="absolute inset-0 fade-in-content">
+                            <i class="fa-solid fa-quote-left text-5xl text-emerald-500 mb-8"></i>
+                            <p class="text-2xl italic text-gray-600 dark:text-gray-300 leading-relaxed mb-6">"${testimonial.quote}"</p>
+                            <p class="text-xl font-semibold text-gray-700 dark:text-gray-200">- ${testimonial.author}</p>
+                        </div>`;
+                    this.config.activeTestimonial = (this.config.activeTestimonial + 1) % this.data.testimonials.length;
+                },
 
-            initAnimations() {
-                gsap.timeline().to(".hero-char", { y: 0, rotate: 0, opacity: 1, stagger: 0.03, delay: 1, ease: "power3.out", duration: 1 }).fromTo(".hero-caret", { opacity: 0 }, { opacity: 1, repeat: -1, yoyo: true, duration: 0.5 }, "-=0.5");
-                
-                document.querySelectorAll('.section-title').forEach(title => { gsap.from(title.querySelectorAll('span'), { yPercent: 100, stagger: 0.1, duration: 0.7, ease: 'power3.out', scrollTrigger: { trigger: title, start: 'top 90%' } }); });
-                
-                const animateTimeline = (selector) => {
-                    gsap.to(`${selector} .timeline-progress, ${selector} .timeline-progress-edu`, { height: '100%', ease: 'none', scrollTrigger: { trigger: selector, start: 'top center', end: 'bottom center', scrub: true }});
-                    document.querySelectorAll(`${selector} .timeline-item`).forEach(item => { gsap.from(item, { x: item.matches(':nth-child(even)') ? 100 : -100, opacity: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: item, start: 'top 85%' } }); });
-                };
-                animateTimeline('#experience-timeline');
-                animateTimeline('#education-timeline');
-                
-                document.querySelectorAll('section[id]').forEach(section => {
-                    ScrollTrigger.create({
-                        trigger: section, start: 'top center+=200', end: 'bottom center-=200',
-                        onToggle: self => {
-                            document.querySelectorAll('.nav-link').forEach(link => {
-                                if (link.getAttribute('href') === `#${section.id}`) link.classList.toggle('active', self.isActive);
-                            });
+                initAnimations() {
+                    this.initTyped();
+                    this.initThreeJS();
+                    this.initCustomCursor();
+                    this.initScrollAnimations();
+                    this.initTimelineAnimation();
+                    this.initNavObserver();
+                    this.cycleTestimonials();
+                    setInterval(() => this.cycleTestimonials(), this.config.testimonialInterval);
+                },
+                initNavObserver() {
+                    const sections = this.elements.queryAll('section');
+                    const navLinks = this.elements.queryAll('#desktop-nav .nav-link, #mobile-menu .nav-link');
+
+                    const observer = new IntersectionObserver(entries => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const id = entry.target.id;
+                                navLinks.forEach(link => {
+                                    link.classList.remove('nav-active');
+                                    if (link.getAttribute('href') === `#${id}`) {
+                                        link.classList.add('nav-active');
+                                    }
+                                });
+                            }
+                        });
+                    }, { rootMargin: '-40% 0px -60% 0px' });
+
+                    sections.forEach(sec => observer.observe(sec));
+                },
+                initTyped() {
+                    new Typed('#type-animation', {
+                        strings: [this.data.personalInfo.title, 'A Lifelong Learner and Innovator', 'Building the Future with Code'],
+                        typeSpeed: 60,
+                        backSpeed: 40,
+                        loop: true,
+                        backDelay: 3000,
+                        fadeOut: true,
+                        showCursor: false
+                    });
+                },
+                initThreeJS() {
+                    const container = this.elements.get('3d-container');
+                    if (!container || !window.THREE) return;
+                    const scene = new THREE.Scene();
+                    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                    container.appendChild(renderer.domElement);
+                    const geometry = new THREE.BoxGeometry(3, 3, 3);
+                    const material = new THREE.MeshStandardMaterial({ color: 0x34D399, wireframe: true, wireframeLinewidth: 2 });
+                    const cube = new THREE.Mesh(geometry, material);
+                    scene.add(cube);
+                    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+                    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+                    dirLight.position.set(-3, 6, 3);
+                    scene.add(dirLight);
+                    camera.position.z = 6;
+                    const mouse = new THREE.Vector2();
+                    window.addEventListener('mousemove', (event) => {
+                        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                    });
+                    const animate = () => {
+                        requestAnimationFrame(animate);
+                        cube.rotation.y = THREE.MathUtils.lerp(cube.rotation.y, (mouse.x * Math.PI) / 10, 0.1);
+                        cube.rotation.x = THREE.MathUtils.lerp(cube.rotation.x, (mouse.y * Math.PI) / 10, 0.1);
+                        renderer.render(scene, camera);
+                    };
+                    animate();
+                    window.addEventListener('resize', () => {
+                        if (container.clientWidth > 0) {
+                            camera.aspect = container.clientWidth / container.clientHeight;
+                            camera.updateProjectionMatrix();
+                            renderer.setSize(container.clientWidth, container.clientHeight);
                         }
                     });
-                });
-                
-                gsap.to('#scroll-to-top', { opacity: 1, pointerEvents: 'auto', scrollTrigger: { trigger: '#about', start: 'top center', toggleActions: 'play none none reverse' } });
-            }
-        }
-        
-        class ThemeManager {
-            constructor() { this.isDarkMode = localStorage.getItem('darkMode') !== 'false'; this.init(); }
-            init() { this.applyTheme(); document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme()); }
-            applyTheme() { document.documentElement.classList.toggle('dark', this.isDarkMode); document.getElementById('theme-icon').className = `fa-solid text-[var(--text-secondary)] ${this.isDarkMode ? 'fa-sun' : 'fa-moon'}`; }
-            toggleTheme() { this.isDarkMode = !this.isDarkMode; localStorage.setItem('darkMode', this.isDarkMode); this.applyTheme(); if (app.webgl && app.webgl.updateTheme) app.webgl.updateTheme(); }
-        }
-        
-        class WebGLManager {
-            constructor() { this.scene = new THREE.Scene(); this.camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000); this.renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), alpha: true }); this.mouse = new THREE.Vector2(); this.init(); }
-            init() { this.renderer.setSize(innerWidth, innerHeight); this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); const s=getComputedStyle(document.documentElement); const pC=5000, p=new Float32Array(pC*3); for(let i=0; i<pC*3; i++) p[i]=(Math.random()-.5)*10; const pG=new THREE.BufferGeometry(); pG.setAttribute('position',new THREE.BufferAttribute(p,3)); this.pM=new THREE.PointsMaterial({ size:0.015, color:parseInt(s.getPropertyValue('--particle-color').trim()), blending:THREE.AdditiveBlending, transparent:true, opacity:0.7}); this.pS=new THREE.Points(pG,this.pM); this.scene.add(this.pS); this.camera.position.z=2; addEventListener('mousemove',e=>{this.mouse.x=(e.clientX/innerWidth)*2-1;this.mouse.y=-(e.clientY/innerHeight)*2+1;}); addEventListener('resize',()=>this.onResize()); this.clock=new THREE.Clock(); this.animate(); }
-            updateTheme() { const s=getComputedStyle(document.documentElement); const c = new THREE.Color(parseInt(s.getPropertyValue('--particle-color').trim())); gsap.to(this.pM.color, {r:c.r, g:c.g, b:c.b, duration:0.5, ease:'power2.inOut'}); }
-            animate() { const eT=this.clock.getElapsedTime(); this.pS.rotation.y = eT*0.05 + this.mouse.x*0.1; this.pS.rotation.x = -this.mouse.y*0.1; this.renderer.render(this.scene,this.camera); requestAnimationFrame(()=>this.animate()); }
-            onResize() { this.camera.aspect=innerWidth/innerHeight; this.camera.updateProjectionMatrix(); this.renderer.setSize(innerWidth,innerHeight); }
-        }
+                },
+                initCustomCursor() {
+                    const cursorDot = this.elements.query('.cursor-dot');
+                    const cursorCircle = this.elements.query('.cursor-circle');
+                    window.addEventListener('mousemove', e => {
+                        cursorDot.style.left = `${e.clientX}px`;
+                        cursorDot.style.top = `${e.clientY}px`;
+                        cursorCircle.style.left = `${e.clientX}px`;
+                        cursorCircle.style.top = `${e.clientY}px`;
+                        const isInteractive = e.target.closest('a, button, .project-card, .process-tab, .service-card');
+                        document.body.classList.toggle('cursor-grow', !!isInteractive);
+                    });
+                },
+                initScrollAnimations() {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                                const skillBar = entry.target.querySelector('.skill-bar');
+                                if (skillBar) skillBar.style.width = skillBar.dataset.level;
+                                if (!entry.target.classList.contains('timeline-item')) {
+                                    observer.unobserve(entry.target);
+                                }
+                            }
+                        });
+                    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+                    this.elements.queryAll('.scroll-animate, .skill-card, .project-card, .timeline-item, .cert-card, .service-card').forEach(el => observer.observe(el));
+                },
+                initTimelineAnimation() {
+                    this.updateTimelineLine = this.updateTimelineLine.bind(this);
+                    this.elements.queryAll('.timeline-container').forEach(container => {
+                        const observer = new IntersectionObserver(entries => {
+                            if (entries[0].isIntersecting) {
+                                window.addEventListener('scroll', this.updateTimelineLine);
+                            } else {
+                                window.removeEventListener('scroll', this.updateTimelineLine);
+                            }
+                        }, { threshold: 0, rootMargin: "-100px 0px -100px 0px" });
+                        observer.observe(container);
+                    });
+                },
+                updateTimelineLine() {
+                    this.elements.queryAll('.timeline-container').forEach(container => {
+                        const { top, height } = container.getBoundingClientRect();
+                        if (height === 0) return;
+                        const scrollY = window.innerHeight;
+                        const visibleHeight = Math.max(0, Math.min(height, scrollY - top));
+                        const progress = Math.min(1, visibleHeight / height);
+                        container.style.setProperty('--after-height', `${progress * 100}%`);
+                    });
+                }
+            };
 
-        class CustomCursor {
-            constructor() { this.dot=document.querySelector('.cursor-dot'); this.circle=document.querySelector('.cursor-circle'); this.init(); }
-            init() { addEventListener('mousemove', e => { gsap.to(this.dot,{duration:0.3,x:e.clientX,y:e.clientY}); gsap.to(this.circle,{duration:0.7,x:e.clientX,y:e.clientY,ease:"power2.out"}); document.body.classList.toggle('cursor-grow',!!e.target.closest('a, button, [data-tilt]'));}); }
-        }
-        
-        class MagneticButtonManager {
-            constructor() { document.querySelectorAll('.magnetic-button').forEach(el=>this.initButton(el)); }
-            initButton(el) { const t=el.querySelector('.magnetic-button-text'); el.addEventListener('mousemove',e=>{const{clientX:cX,clientY:cY}=e; const{left:l,top:o,width:w,height:h}=el.getBoundingClientRect(); gsap.to(t||el,{x:(cX-(l+w/2))*0.4,y:(cY-(o+h/2))*0.4,duration:0.5,ease:'power3.out'});}); el.addEventListener('mouseleave',()=>{gsap.to(t||el,{x:0,y:0,duration:0.7,ease:'elastic.out(1, 0.5)'});}); }
-        }
-
-        class TestimonialSlider {
-            constructor(testimonials) {
-                this.testimonials = testimonials;
-                this.currentIndex = 0;
-                this.contentEl = document.getElementById('testimonial-content');
-                this.bindEvents();
-                this.render();
-            }
-            render() {
-                this.contentEl.innerHTML = this.testimonials.map((t, i) => `
-                    <div class="testimonial-item ${i === this.currentIndex ? 'active' : ''}">
-                        <p class="text-2xl italic text-[var(--text-secondary)] leading-relaxed mb-6">"${t.quote}"</p>
-                        <p class="text-xl font-semibold text-[var(--text-primary)]">- ${t.author}, <span class="text-[var(--text-secondary)] font-normal">${t.designation}</span></p>
-                    </div>
-                `).join('');
-            }
-            bindEvents() {
-                document.getElementById('next-testimonial').addEventListener('click', () => this.next());
-                document.getElementById('prev-testimonial').addEventListener('click', () => this.prev());
-            }
-            next() { this.currentIndex = (this.currentIndex + 1) % this.testimonials.length; this.render(); }
-            prev() { this.currentIndex = (this.currentIndex - 1 + this.testimonials.length) % this.testimonials.length; this.render(); }
-        }
-
-        const app = new MainApp();
+            PortfolioApp.init();
+        });
     </script>
 </body>
 </html>
