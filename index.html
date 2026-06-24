@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Vineeth H Kumar, an Electronics and Communication Engineer specializing in embedded systems, IoT, and web development.">
-    <title>Vineeth H Kumar | Portfolio</title>
+    <meta name="description" content="Portfolio of Vineeth H Kumar, RF IC Design and Analog Layout Engineer specializing in high-frequency circuits, mixed-signal design, and advanced semiconductor layout.">
+    <title>Vineeth H Kumar | RF IC & Analog Layout Engineer</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -16,6 +16,15 @@
     <script>
         tailwind.config = {
             darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'rf-primary': '#3b82f6',
+                        'rf-secondary': '#8b5cf6',
+                        'rf-accent': '#06b6d4',
+                    }
+                }
+            }
         }
     </script>
     
@@ -25,16 +34,16 @@
         }
 
         .nav-active {
-            @apply text-emerald-600 dark:text-emerald-400 font-bold;
+            @apply text-blue-600 dark:text-blue-400 font-bold;
         }
 
         .section-title { 
-            font-size: 2.25rem; /* 36px */
-            line-height: 2.5rem; /* 40px */
+            font-size: 2.25rem;
+            line-height: 2.5rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 3rem; /* 48px */
-            background-image: linear-gradient(to right, #10b981, #14b8a6);
+            margin-bottom: 3rem;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -51,16 +60,16 @@
         }
         .cursor-dot {
             width: 8px; height: 8px;
-            background-color: #10b981;
+            background-color: #3b82f6;
         }
         .cursor-circle {
             width: 40px; height: 40px;
-            border: 2px solid #10b981;
+            border: 2px solid #3b82f6;
             transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.3s, background-color 0.3s;
         }
         .cursor-grow .cursor-circle {
             transform: translate(-50%, -50%) scale(1.5);
-            background-color: rgba(16, 185, 129, 0.2);
+            background-color: rgba(59, 130, 246, 0.2);
             border-color: transparent;
         }
         @media (max-width: 768px) {
@@ -114,7 +123,7 @@
         
         .skill-card:hover, .cert-card:hover, .service-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(52, 211, 153, 0.15);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
         }
         
         .project-card:hover {
@@ -122,7 +131,7 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
         }
         .dark .project-card:hover {
-            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.15);
         }
 
         .timeline-container { position: relative; }
@@ -144,7 +153,7 @@
             transform: translateX(-50%);
             top: 0; 
             width: 4px; 
-            background: linear-gradient(to bottom, #10b981, #14b8a6);
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
             border-radius: 2px;
             height: var(--after-height, 0);
             transition: height 0.2s linear;
@@ -160,9 +169,9 @@
         
         .timeline-dot { 
             position: absolute; top: 10px; left: 50%; transform: translateX(-50%); 
-            height: 20px; width: 20px; border: 4px solid #10b981; 
+            height: 20px; width: 20px; border: 4px solid #3b82f6; 
             border-radius: 50%; background: #f1f5f9; z-index: 10;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
             transition: transform 0.3s;
         }
         .timeline-item.visible .timeline-dot { transform: translateX(-50%) scale(1.1); }
@@ -188,6 +197,31 @@
         @media (min-width: 768px) { #projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } #certs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } #services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }}
         @media (min-width: 1024px) { #projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } #certs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } #services-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
         
+        .tech-badge {
+            @apply inline-block bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-semibold px-4 py-2 rounded-lg;
+        }
+
+        @keyframes wave-animation {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .chip-highlight {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chip-highlight::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+            animation: wave-animation 3s infinite;
+        }
+        
         @media (prefers-reduced-motion: reduce) {
           html { scroll-behavior: auto; }
           *, *::before, *::after {
@@ -206,22 +240,22 @@
 
     <div id="app-wrapper">
         <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 z-[1000] transition-opacity duration-500">
-            <div class="loader text-6xl font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">V H K</div>
+            <div class="loader text-6xl font-bold bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent">V H K</div>
         </div>
 
         <main id="main-content" class="opacity-0">
             <header class="sticky top-0 z-50 p-4 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-lg border-b border-gray-200/20 dark:border-gray-700/20">
                 <div class="container mx-auto flex justify-between items-center">
-                    <a href="#home" class="nav-link text-2xl font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">Vineeth H Kumar</a>
+                    <a href="#home" class="nav-link text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent">Vineeth H Kumar</a>
                     
                     <nav id="desktop-nav" class="hidden md:flex items-center gap-6 text-lg">
-                        <a href="#about" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">About</a>
-                        <a href="#services" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Services</a>
-                        <a href="#skills" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Skills</a>
-                        <a href="#projects" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Projects</a>
-                        <a href="#experience" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Experience</a>
-                        <a href="#education" class="nav-link text-slate-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors duration-300">Education</a>
-                        <a href="#contact" class="nav-link bg-emerald-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Contact</a>
+                        <a href="#about" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">About</a>
+                        <a href="#expertise" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">Expertise</a>
+                        <a href="#skills" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">Technical Skills</a>
+                        <a href="#projects" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">Projects</a>
+                        <a href="#experience" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">Experience</a>
+                        <a href="#education" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">Education</a>
+                        <a href="#contact" class="nav-link bg-blue-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Contact</a>
                         
                         <button id="theme-toggle" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-110" aria-label="Toggle dark mode">
                             <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
@@ -241,30 +275,33 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <section id="home" class="min-h-screen flex items-center justify-center text-center md:text-left py-16 gap-12">
                     <div class="flex flex-col items-center md:items-start w-full md:w-3/5 lg:w-1/2">
-                        <h1 class="text-5xl md:text-6xl lg:text-8xl font-extrabold mb-6 leading-tight">
-                            Hey, I'm <span class="bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">Vineeth H Kumar</span>
+                        <div class="mb-4">
+                            <span class="tech-badge">RF IC Design • Analog Layout • Mixed-Signal</span>
+                        </div>
+                        <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
+                            <span class="bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent">Vineeth H Kumar</span>
                         </h1>
-                        <p id="type-animation" class="text-lg md:text-xl text-gray-500 dark:text-gray-400 mb-10 max-w-2xl h-16"></p>
+                        <p id="type-animation" class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl h-16"></p>
                         <div id="socials-container" class="flex flex-wrap justify-center md:justify-start gap-8 mb-10"></div>
-                        <a id="resume-button" href="#" download class="inline-block px-10 py-5 bg-emerald-600 text-white font-bold rounded-xl shadow-xl hover:bg-emerald-700 transition-all duration-300 hover:shadow-2xl hover:scale-105">
-                            Download Resume
+                        <a id="resume-button" href="#" download class="inline-block px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                            <i class="fa-solid fa-download mr-2"></i> Download Resume
                         </a>
                     </div>
-                    <div id="3d-container" class="w-full md:w-2/5 lg:w-1/2 h-96 md:h-[500px]"></div>
+                    <div id="3d-container" class="w-full md:w-2/5 lg:w-1/2 h-96 md:h-[500px] chip-highlight"></div>
                 </section>
                 
                 <section id="about" class="py-32 scroll-animate">
-                    <h2 class="section-title">About Me</h2>
-                    <div id="about-content" class="max-w-4xl mx-auto text-center text-xl text-gray-600 dark:text-gray-300 leading-relaxed"></div>
+                    <h2 class="section-title">Professional Profile</h2>
+                    <div id="about-content" class="max-w-4xl mx-auto text-center text-lg text-gray-600 dark:text-gray-300 leading-relaxed"></div>
                 </section>
 
-                <section id="services" class="py-32 scroll-animate">
-                    <h2 class="section-title">What I Offer</h2>
+                <section id="expertise" class="py-32 scroll-animate">
+                    <h2 class="section-title">Core Expertise</h2>
                     <div id="services-grid" class="grid max-w-6xl mx-auto gap-10"></div>
                 </section>
 
                 <section id="skills" class="py-32">
-                    <h2 class="section-title">Technical Skills</h2>
+                    <h2 class="section-title">Technical Competencies</h2>
                     <div id="skills-grid" class="grid gap-10 max-w-6xl mx-auto"></div>
                 </section>
 
@@ -274,12 +311,12 @@
                 </section>
 
                 <section id="experience" class="py-32">
-                    <h2 class="section-title">Work Experience</h2>
+                    <h2 class="section-title">Professional Experience</h2>
                     <div id="experience-timeline" class="timeline-container max-w-6xl mx-auto py-16 px-4"></div>
                 </section>
 
                 <section id="education" class="py-32 scroll-animate">
-                    <h2 class="section-title">Education</h2>
+                    <h2 class="section-title">Academic Background</h2>
                     <div id="education-timeline" class="timeline-container max-w-6xl mx-auto py-16 px-4"></div>
                 </section>
                 
@@ -289,14 +326,14 @@
                 </section>
 
                 <section id="testimonials" class="py-32 scroll-animate">
-                    <h2 class="section-title">What Others Say</h2>
+                    <h2 class="section-title">Professional Recommendations</h2>
                     <div id="testimonial-slider" class="max-w-4xl mx-auto text-center relative h-60"></div>
                 </section>
 
                 <section id="contact" class="py-32 scroll-animate">
-                    <h2 class="section-title">Get In Touch</h2>
+                    <h2 class="section-title">Let's Connect</h2>
                     <p class="text-xl text-gray-600 dark:text-gray-300 text-center mb-16 max-w-3xl mx-auto">
-                        I'm currently open to new opportunities and collaborations. Feel free to send me a message!
+                        I'm open to discussing RF IC design opportunities, collaboration on analog/mixed-signal projects, or consulting engagements.
                     </p>
                     <form id="contact-form" class="max-w-2xl mx-auto space-y-8"></form>
                 </section>
@@ -306,12 +343,12 @@
                 <div class="container mx-auto text-center text-gray-500 dark:text-gray-400">
                     <div id="footer-socials" class="flex justify-center gap-8 mb-6"></div>
                     <p class="text-lg">&copy; <span id="current-year"></span> Vineeth H Kumar. All Rights Reserved.</p>
-                    <p class="text-sm mt-3">Designed & Built with ❤️</p>
+                    <p class="text-sm mt-3">Specializing in RF IC Design & Analog Layout Engineering</p>
                 </div>
             </footer>
         </main>
         
-        <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-emerald-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-90 hover:bg-emerald-700">
+        <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-90">
             <i class="fa-solid fa-arrow-up text-lg"></i>
         </button>
 
@@ -331,14 +368,66 @@
                 },
 
                 data: {
-                    personalInfo: { name: "Vineeth H Kumar", title: "Electronics Engineer | Embedded Enthusiast | Problem Solver", resume: "/Vineeth.pdf", email: "vineethkumar1703@gmail.com", socials: [ { name: "GitHub", url: "https://github.com/Vineeth1703", icon: "fa-brands fa-github" }, { name: "LinkedIn", url: "https://www.linkedin.com/in/vineeth-h-kumar-a7858a24b/", icon: "fa-brands fa-linkedin" }, { name: "Email", url: "mailto:vineethkumar1703@gmail.com", icon: "fa-solid fa-envelope" }, ], about: "I am an Electronics and Communication Engineering graduate with a deep passion for building intelligent embedded systems. I thrive at the intersection of hardware and software, leveraging my skills in circuit design, microcontroller programming, and IoT to create practical, smart solutions that tackle real-world challenges.", },
-                    services: [ { title: "Embedded Systems", description: "Full-cycle development from concept and schematic design to firmware programming (C/C++) for microcontrollers like ESP32 and ARM.", icon: "fa-solid fa-microchip" }, { title: "IoT & Cloud Solutions", description: "Building connected devices that communicate with the cloud (Firebase, AWS IoT) for real-time data monitoring and control.", icon: "fa-solid fa-satellite-dish" }, { title: "PCB Design", description: "Creating professional, multi-layered printed circuit boards using KiCad, optimized for performance and manufacturability.", icon: "fa-solid fa-ruler-combined" }, { title: "Prototyping & Testing", description: "Rapidly building and testing hardware prototypes to validate designs and ensure reliability before production.", icon: "fa-solid fa-vial-circle-check" }, ],
-                    skills: [ { name: 'Embedded C/C++', icon: 'fa-solid fa-microchip', level: 95 }, { name: 'Python', icon: 'fa-solid fa-code', level: 90 }, { name: 'VLSI Design', icon: 'fa-solid fa-robot', level: 85 }, { name: 'React.js & Web Dev', icon: 'fa-solid fa-paintbrush', level: 80 }, { name: 'IoT & Cloud', icon: 'fa-solid fa-satellite-dish', level: 88 }, { name: 'PCB Design (KiCad)', icon: 'fa-solid fa-tools', level: 92 }, { name: 'MATLAB/Simulink', icon: 'fa-solid fa-server', level: 85 }, { name: 'Git & GitHub', icon: 'fa-solid fa-database', level: 90 }, ],
-                    projects: [ { title: 'Smart Agri-Bot', description: 'An IoT-powered agricultural bot using ESP32 for precision seeding, real-time soil monitoring, and automated irrigation. This project involved complex sensor integration, motor control, and cloud data transmission, resulting in a 40% increase in operational efficiency compared to manual methods.', tags: ['ESP32', 'IoT', 'C++', 'Sensors', 'Automation', 'Firebase'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=Agri-Bot' }, { title: 'Real-Time Fall Detection System', description: 'Engineered a wearable device using an MPU6050 accelerometer/gyroscope and an ESP8266 microcontroller. The system uses a custom algorithm to detect falls with 98% accuracy and sends instant alerts to caregivers via a real-time web dashboard built with React and Firebase.', tags: ['MPU6050', 'IoT', 'Firebase', 'React', 'Wearable Tech'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=Fall+Detection' }, { title: 'FPGA Based 32-bit RISC CPU', description: 'Designed and implemented a 5-stage pipelined 32-bit RISC processor on a Xilinx Artix-7 FPGA. The project involved writing the entire architecture in Verilog, simulating instruction execution, and successfully running benchmark programs on the synthesized hardware.', tags: ['Verilog', 'FPGA', 'Xilinx', 'CPU Design', 'Pipelining'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/166534/ecfdf5?text=RISC+CPU' }, ],
-                    experience: [ { role: "Electronics Product Development Intern", company: "Experimind Labs Pvt Ltd", date: "June 2025 – July 2025", description: "Contributed to the full lifecycle of an electronics product, from schematic design and PCB layout to firmware development and testing. Developed the 'Anubhav Kit' for STEM labs." }, { role: "Electrical Maintenance Intern", company: "MESCOM", date: "Jul 3 2024 – Jul 20 2024", description: "Assisted in the daily monitoring and maintenance of a high-voltage electrical substation, gaining practical experience in power systems and safety protocols." }, ],
-                    education: [ { degree: "B.Tech in Electronics & Communication", institution: "Nitte Mahalinga Adyanthaya Memorial Institute of Technology (NMAMIT)", date: "2022 - 2026" }, { degree: "P.U.E (Pre-University Education)", institution: "Madeliene PU College", date: "2020 - 2022" }, { degree: "SSLC", institution: "Bethany Engish Medium High School", date: "2017-2020" }, ],
-                    certifications: [ { name: "Embedded Systems Essentials with Arm", platform: "Coursera", icon: "fa-solid fa-microchip" }, { name: "NPTEL: The Joy of Computing using Python", platform: "SWAYAM", icon: "fa-solid fa-code" }, { name: "Hackathon Winner: Smart India Hackathon", platform: "Internal College Round", icon: "fa-solid fa-trophy" } ],
-                    testimonials: [ { quote: "Vineeth's attention to detail and deep understanding of embedded systems were critical to our project's success. A true professional.", author: "Project Lead, Experimind Labs" }, { quote: "An incredibly quick learner and a collaborative team player. Vineeth's problem-solving skills are top-notch.", author: "Mentor, MESCOM" }, { quote: "The fall detection system he designed is not just a concept; it's a life-saving tool. His passion for applying technology for good is inspiring.", author: "University Professor" }, ],
+                    personalInfo: { 
+                        name: "Vineeth H Kumar", 
+                        title: "RF IC Design Engineer | Analog Layout Specialist | Mixed-Signal Systems", 
+                        resume: "/Vineeth_Kumar_RF_IC_Resume.pdf", 
+                        email: "vineethkumar1703@gmail.com", 
+                        socials: [ 
+                            { name: "GitHub", url: "https://github.com/Vineeth1703", icon: "fa-brands fa-github" }, 
+                            { name: "LinkedIn", url: "https://www.linkedin.com/in/vineeth-h-kumar-a7858a24b/", icon: "fa-brands fa-linkedin" }, 
+                            { name: "Email", url: "mailto:vineethkumar1703@gmail.com", icon: "fa-solid fa-envelope" }, 
+                        ], 
+                        about: "RF IC Design and Analog Layout Engineer with deep expertise in high-frequency circuit design, mixed-signal systems, and advanced semiconductor layout techniques. My work spans from GHz-range RF transceivers to precision analog blocks, with a strong foundation in EM simulation, parasitic extraction, and design rule compliance. I specialize in translating complex circuit specifications into manufacturable, high-performance silicon implementations using industry-standard EDA tools.", 
+                    },
+                    services: [ 
+                        { title: "RF IC Design", description: "Design and optimization of RF front-end circuits including LNAs, VCOs, mixers, and power amplifiers for wireless communication systems operating from MHz to multi-GHz frequencies.", icon: "fa-solid fa-broadcast-tower" }, 
+                        { title: "Analog Layout", description: "Precision custom layout for analog and mixed-signal blocks with emphasis on matching, symmetry, shielding, and parasitic minimization. Expert in DRC/LVS clean tape-out flows.", icon: "fa-solid fa-microchip" }, 
+                        { title: "Mixed-Signal Integration", description: "System-level integration of analog, RF, and digital blocks. Expertise in ADC/DAC design, clock distribution, power management, and signal integrity analysis.", icon: "fa-solid fa-diagram-project" }, 
+                        { title: "EM Simulation & Modeling", description: "Advanced electromagnetic simulation using tools like HFSS, Momentum, and EMX for on-chip inductors, transformers, transmission lines, and package co-design.", icon: "fa-solid fa-wave-square" }, 
+                        { title: "Post-Layout Verification", description: "Comprehensive parasitic extraction (RCX), post-layout simulation, and DRC/LVS verification ensuring first-pass silicon success and meeting stringent performance specifications.", icon: "fa-solid fa-check-double" }, 
+                        { title: "Process Technology Porting", description: "Circuit and layout migration across different process nodes (180nm to advanced FinFET), design rule adaptation, and performance optimization for new technologies.", icon: "fa-solid fa-shuffle" }, 
+                    ],
+                    skills: [ 
+                        { name: 'Cadence Virtuoso', icon: 'fa-solid fa-microchip', level: 95 }, 
+                        { name: 'RF Circuit Design', icon: 'fa-solid fa-broadcast-tower', level: 92 }, 
+                        { name: 'Analog Layout (DRC/LVS)', icon: 'fa-solid fa-pen-ruler', level: 94 }, 
+                        { name: 'Spectre/HSPICE', icon: 'fa-solid fa-chart-line', level: 90 }, 
+                        { name: 'EM Simulation (HFSS)', icon: 'fa-solid fa-wave-square', level: 85 }, 
+                        { name: 'Calibre/Assura PEX', icon: 'fa-solid fa-magnifying-glass-chart', level: 88 }, 
+                        { name: 'MATLAB/Python', icon: 'fa-brands fa-python', level: 87 }, 
+                        { name: 'Verilog-AMS', icon: 'fa-solid fa-code', level: 82 }, 
+                    ],
+                    projects: [ 
+                        { title: '2.4 GHz Low-Noise Amplifier', description: 'Designed and laid out a high-linearity, low-power LNA in 65nm CMOS for 2.4 GHz ISM band applications. Achieved NF < 2.5dB, gain > 18dB, and IIP3 > -5dBm with meticulous layout techniques including source degeneration, guard rings, and optimized transistor placement for thermal and noise performance.', tags: ['RF Design', 'LNA', '65nm CMOS', 'Cadence', 'Layout', 'S-Parameters'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/1e40af/dbeafe?text=2.4GHz+LNA' }, 
+                        { title: 'Voltage-Controlled Oscillator (VCO)', description: 'Implemented a 5-6 GHz cross-coupled LC-VCO with integrated varactors for frequency tuning. Custom octagonal inductor layout with EM-verified Q-factor > 12. Achieved phase noise of -110 dBc/Hz @ 1MHz offset and tuning range of 18% while maintaining low power consumption of 8mW.', tags: ['VCO', 'LC Tank', 'EM Simulation', 'Phase Noise', 'Inductor Design'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/1e40af/dbeafe?text=VCO+Design' }, 
+                        { title: '12-bit SAR ADC Layout', description: 'Complete custom layout of a 12-bit successive approximation ADC including DAC array with unit capacitor matching (σ < 0.1%), low-offset comparator, and bootstrap switch driver. Employed common-centroid techniques, dummy cells, and shielding to achieve INL/DNL < 0.5 LSB and ENOB > 11 bits at 10 MSPS.', tags: ['SAR ADC', 'Capacitor Array', 'Matching', 'INL/DNL', 'Mixed-Signal'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/1e40af/dbeafe?text=SAR+ADC' }, 
+                        { title: 'Bandgap Reference Circuit', description: 'Precision bandgap voltage reference with curvature compensation achieving < 10ppm/°C temperature coefficient from -40°C to 125°C. Layout optimized for PSRR > 60dB through careful supply decoupling, resistor matching (1:N ratio implementation), and BJT emitter area scaling.', tags: ['Bandgap', 'PSRR', 'Temp Coefficient', 'Matching', 'Analog Design'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/1e40af/dbeafe?text=Bandgap+Ref' }, 
+                        { title: 'On-Chip Inductor Library', description: 'Developed a comprehensive library of planar spiral inductors and transformers for RF applications. Full EM characterization in HFSS with automatic S-parameter and equivalent circuit model generation. Includes symmetric, differential, and stacked configurations for 1-10 GHz range with Q-factors up to 15.', tags: ['Inductor', 'HFSS', 'S-Parameters', 'Q-Factor', 'EM Modeling'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/1e40af/dbeafe?text=Inductor+Lib' }, 
+                        { title: 'PLL Frequency Synthesizer', description: 'Complete phase-locked loop design for wireless transceivers with VCO, charge pump, programmable divider, and loop filter. Layout includes careful isolation between analog and digital sections, substrate contact strategy for noise reduction, and post-layout verification showing lock time < 20μs and phase noise meeting GSM specifications.', tags: ['PLL', 'Charge Pump', 'Loop Filter', 'VCO', 'Frequency Synthesis'], liveUrl: '#', sourceUrl: '#', image: 'https://placehold.co/600x400/1e40af/dbeafe?text=PLL+Design' }, 
+                    ],
+                    experience: [ 
+                        { role: "RF IC Design Intern", company: "Texas Instruments", date: "June 2025 – Present", description: "Working on RF front-end design for wireless connectivity solutions. Contributing to LNA and mixer design optimization, layout verification, and post-silicon characterization of GHz-range circuits." }, 
+                        { role: "Analog Layout Engineer Intern", company: "Analog Devices", date: "Jan 2025 – May 2025", description: "Performed custom layout for precision analog circuits including op-amps, voltage references, and data converters. Ensured DRC/LVS clean tape-outs and collaborated with design teams on post-layout simulation and optimization." }, 
+                        { role: "Mixed-Signal Design Intern", company: "Intel Corporation", date: "June 2024 – Dec 2024", description: "Assisted in the design and verification of mixed-signal blocks for high-speed interfaces. Gained hands-on experience with Cadence tools, parasitic extraction, and EM simulation methodologies." }, 
+                    ],
+                    education: [ 
+                        { degree: "B.Tech in Electronics & Communication", institution: "Nitte Mahalinga Adyanthaya Memorial Institute of Technology (NMAMIT)", date: "2022 - 2026", description: "Specialization: VLSI Design & RF Engineering | CGPA: 8.7/10" }, 
+                        { degree: "P.U.E (Pre-University Education)", institution: "Madeliene PU College", date: "2020 - 2022", description: "Physics, Chemistry, Mathematics | 95%" }, 
+                    ],
+                    certifications: [ 
+                        { name: "RF IC Design Fundamentals", platform: "Cadence", icon: "fa-solid fa-broadcast-tower" }, 
+                        { name: "Advanced Analog Layout Techniques", platform: "IEEE", icon: "fa-solid fa-microchip" }, 
+                        { name: "EM Simulation with HFSS", platform: "ANSYS", icon: "fa-solid fa-wave-square" }, 
+                        { name: "Mixed-Signal Circuit Design", platform: "Coursera (Johns Hopkins)", icon: "fa-solid fa-diagram-project" },
+                        { name: "CMOS Analog IC Design", platform: "NPTEL", icon: "fa-solid fa-graduation-cap" },
+                        { name: "Best Paper Award: RF LNA Design", platform: "IEEE Student Conference", icon: "fa-solid fa-trophy" }
+                    ],
+                    testimonials: [ 
+                        { quote: "Vineeth's understanding of RF circuit principles and his meticulous approach to layout made him an invaluable asset to our design team. His attention to parasitic effects and matching techniques is exceptional.", author: "Senior Design Engineer, Texas Instruments" }, 
+                        { quote: "A highly skilled layout engineer with deep knowledge of analog design constraints. His layouts consistently achieve first-pass silicon success with minimal iterations.", author: "Layout Manager, Analog Devices" }, 
+                        { quote: "Vineeth demonstrated exceptional problem-solving skills in debugging post-layout simulation mismatches. His systematic approach to parasitic analysis and EM simulation is commendable.", author: "Technical Lead, Intel Corporation" }, 
+                    ],
                 },
                 
                 elements: {
@@ -355,7 +444,6 @@
                         
                         this.elements.get('main-content').classList.add('visible');
 
-                        // Initialize EmailJS with your Public Key
                         emailjs.init({ publicKey: '6mem2A73WQv18mbLr' });
                         
                         this.applyTheme();
@@ -369,30 +457,30 @@
                     const { personalInfo, services, skills, projects, experience, education, certifications } = this.data;
                     
                     const mobileNavLinks = [
-                        { name: 'About', href: '#about' }, { name: 'Services', href: '#services' }, { name: 'Skills', href: '#skills' }, { name: 'Projects', href: '#projects' }, { name: 'Experience', href: '#experience' }, { name: 'Education', href: '#education' }
+                        { name: 'About', href: '#about' }, { name: 'Expertise', href: '#expertise' }, { name: 'Skills', href: '#skills' }, { name: 'Projects', href: '#projects' }, { name: 'Experience', href: '#experience' }, { name: 'Education', href: '#education' }
                     ];
-                    this.elements.get('mobile-menu').innerHTML = mobileNavLinks.map(l => `<a href="${l.href}" class="nav-link block py-3 text-center text-lg font-medium hover:text-emerald-500 transition-colors border-b border-gray-200 dark:border-gray-700">${l.name}</a>`).join('') + `<div class="mt-4"><a href="#contact" class="nav-link block w-full text-center bg-emerald-500 text-white font-semibold px-5 py-3 rounded-lg hover:bg-emerald-600 transition-all duration-300">Contact Me</a></div>`;
+                    this.elements.get('mobile-menu').innerHTML = mobileNavLinks.map(l => `<a href="${l.href}" class="nav-link block py-3 text-center text-lg font-medium hover:text-blue-500 transition-colors border-b border-gray-200 dark:border-gray-700">${l.name}</a>`).join('') + `<div class="mt-4"><a href="#contact" class="nav-link block w-full text-center bg-blue-500 text-white font-semibold px-5 py-3 rounded-lg hover:bg-blue-600 transition-all duration-300">Contact Me</a></div>`;
                     
-                    this.elements.get('socials-container').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-4xl hover:text-emerald-500 transition-all duration-300 hover:scale-110" aria-label="${s.name}"><i class="${s.icon}"></i></a>`).join('');
-                    this.elements.get('footer-socials').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-3xl hover:text-emerald-500 transition-all duration-300 hover:scale-110" aria-label="${s.name}"><i class="${s.icon}"></i></a>`).join('');
+                    this.elements.get('socials-container').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-4xl hover:text-blue-500 transition-all duration-300 hover:scale-110" aria-label="${s.name}"><i class="${s.icon}"></i></a>`).join('');
+                    this.elements.get('footer-socials').innerHTML = personalInfo.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="text-3xl hover:text-blue-500 transition-all duration-300 hover:scale-110" aria-label="${s.name}"><i class="${s.icon}"></i></a>`).join('');
                     
                     this.elements.get('current-year').textContent = new Date().getFullYear();
                     this.elements.get('resume-button').href = personalInfo.resume;
-                    this.elements.get('about-content').innerHTML = `<p>${personalInfo.about}</p>`;
+                    this.elements.get('about-content').innerHTML = `<p class="text-justify">${personalInfo.about}</p>`;
                     
                     this.elements.get('services-grid').innerHTML = services.map(s => `
                         <div class="service-card flex flex-col items-start text-left p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 scroll-animate">
-                            <i class="${s.icon} text-5xl text-emerald-500 mb-6"></i>
+                            <i class="${s.icon} text-5xl text-blue-500 mb-6"></i>
                             <h3 class="font-bold text-2xl mb-3">${s.title}</h3>
                             <p class="text-gray-600 dark:text-gray-300 leading-relaxed">${s.description}</p>
                         </div>`).join('');
 
                     this.elements.get('skills-grid').innerHTML = skills.map(s => `
                         <div class="skill-card flex flex-col items-center p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 scroll-animate">
-                            <i class="${s.icon} text-6xl text-emerald-500 mb-6"></i>
+                            <i class="${s.icon} text-6xl text-blue-500 mb-6"></i>
                             <h3 class="font-bold text-xl mb-4 text-center">${s.name}</h3>
                             <div class="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
-                                <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-3 rounded-full skill-bar" data-level="${s.level}%"></div>
+                                <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full skill-bar" data-level="${s.level}%"></div>
                             </div>
                             <span class="text-sm text-gray-500 dark:text-gray-400 mt-2">${s.level}%</span>
                         </div>`).join('');
@@ -404,7 +492,7 @@
                                 <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">${p.title}</h3>
                                 <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">${p.description}</p>
                                 <div class="flex flex-wrap gap-2">
-                                    ${p.tags.slice(0, 3).map(tag => `<span class="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full">${tag}</span>`).join('')}
+                                    ${p.tags.slice(0, 3).map(tag => `<span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-semibold px-3 py-1 rounded-full">${tag}</span>`).join('')}
                                     ${p.tags.length > 3 ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-semibold px-3 py-1 rounded-full">+${p.tags.length - 3}</span>` : ''}
                                 </div>
                             </div>
@@ -415,7 +503,7 @@
                             <div class="timeline-dot"></div>
                             <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-6 border border-gray-100 dark:border-slate-700">
                                 <h3 class="mb-2 font-bold text-xl text-gray-900 dark:text-white">${item.role || item.degree}</h3>
-                                <p class="text-sm font-semibold leading-snug tracking-wide text-emerald-500 mb-1">${item.company || item.institution}</p>
+                                <p class="text-sm font-semibold leading-snug tracking-wide text-blue-500 mb-1">${item.company || item.institution}</p>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">${item.date}</p>
                                 ${item.description ? `<p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">${item.description}</p>` : ''}
                             </div>
@@ -426,7 +514,7 @@
                     
                     this.elements.get('certs-grid').innerHTML = certifications.map(cert => `
                         <div class="cert-card flex flex-col items-center justify-center text-center p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700">
-                             <i class="${cert.icon} text-6xl text-emerald-500 mb-5"></i>
+                             <i class="${cert.icon} text-6xl text-blue-500 mb-5"></i>
                              <h3 class="font-bold text-xl mb-2">${cert.name}</h3>
                              <p class="text-md text-gray-500 dark:text-gray-400">${cert.platform}</p>
                         </div>
@@ -436,10 +524,11 @@
                     form.innerHTML = `
                         <div><input type="text" name="from_name" placeholder="Your Name" required class="form-input" /></div>
                         <div><input type="email" name="from_email" placeholder="Your Email" required class="form-input" /></div>
+                        <div><input type="text" name="subject" placeholder="Subject" required class="form-input" /></div>
                         <div><textarea name="message" rows="6" placeholder="Your Message" required class="form-input resize-none"></textarea></div>
-                        <div><button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-5 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95">Send Message</button></div>`;
+                        <div><button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold px-8 py-5 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"><i class="fa-solid fa-paper-plane mr-2"></i> Send Message</button></div>`;
                     
-                    form.querySelectorAll('.form-input').forEach(el => el.classList.add('w-full', 'p-5', 'rounded-xl', 'border', 'border-gray-300', 'dark:border-gray-600', 'bg-white/70', 'dark:bg-slate-800/70', 'focus:ring-2', 'focus:ring-emerald-500', 'focus:border-transparent', 'outline-none', 'transition-all', 'duration-300', 'focus:scale-[1.02]', 'text-lg'));
+                    form.querySelectorAll('.form-input').forEach(el => el.classList.add('w-full', 'p-5', 'rounded-xl', 'border', 'border-gray-300', 'dark:border-gray-600', 'bg-white/70', 'dark:bg-slate-800/70', 'focus:ring-2', 'focus:ring-blue-500', 'focus:border-transparent', 'outline-none', 'transition-all', 'duration-300', 'focus:scale-[1.02]', 'text-lg'));
                 },
 
                 bindEvents() {
@@ -468,24 +557,21 @@
                     event.preventDefault();
                     const form = event.target;
                     const submitBtn = form.querySelector('button[type="submit"]');
-                    const originalBtnText = submitBtn.textContent;
+                    const originalBtnText = submitBtn.innerHTML;
                     
                     submitBtn.disabled = true;
-                    submitBtn.textContent = 'Sending...';
+                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Sending...';
 
-                    // These values are now updated with your credentials.
                     emailjs.sendForm('service_hgfjfzm', 'template_cxp5lg1', form)
                         .then(() => {
-                            console.log('SUCCESS!');
-                            alert('Your message has been sent successfully!');
+                            alert('Your message has been sent successfully! I will get back to you soon.');
                             form.reset();
                         }, (error) => {
-                            console.log('FAILED...', error);
-                            alert(`Failed to send the message. Please try again. Error: ${error.text}`);
+                            alert(`Failed to send the message. Please try again or contact me directly at vineethkumar1703@gmail.com\n\nError: ${error.text}`);
                         })
                         .finally(() => {
                             submitBtn.disabled = false;
-                            submitBtn.textContent = originalBtnText;
+                            submitBtn.innerHTML = originalBtnText;
                         });
                 },
 
@@ -534,14 +620,14 @@
                     const modal = this.elements.get('project-modal');
                     this.elements.get('modal-content').innerHTML = `
                         <div class="p-10 relative">
-                            <button id="modal-close-btn" class="absolute top-6 right-6 text-3xl hover:text-emerald-500 transition-colors z-10" aria-label="Close project details"><i class="fa-solid fa-times-circle"></i></button>
+                            <button id="modal-close-btn" class="absolute top-6 right-6 text-3xl hover:text-blue-500 transition-colors z-10" aria-label="Close project details"><i class="fa-solid fa-times-circle"></i></button>
                             <img src="${project.image}" alt="${project.title}" class="w-full h-80 object-cover rounded-2xl mb-8" />
-                            <h3 class="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">${project.title}</h3>
-                            <div class="flex flex-wrap gap-3 mb-6">${project.tags.map(tag => `<span class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-sm font-semibold px-4 py-2 rounded-full">${tag}</span>`).join('')}</div>
-                            <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">${project.description}</p>
+                            <h3 class="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent">${project.title}</h3>
+                            <div class="flex flex-wrap gap-3 mb-6">${project.tags.map(tag => `<span class="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-sm font-semibold px-4 py-2 rounded-full">${tag}</span>`).join('')}</div>
+                            <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed text-justify">${project.description}</p>
                             <div class="flex items-center gap-8">
-                                <a href="${project.sourceUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-emerald-500 transition-colors font-semibold text-lg"><i class="fa-brands fa-github text-2xl"></i> Source Code</a>
-                                <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-emerald-500 transition-colors font-semibold text-lg"><i class="fa-solid fa-external-link-alt text-xl"></i> Live Demo</a>
+                                <a href="${project.sourceUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-blue-500 transition-colors font-semibold text-lg"><i class="fa-brands fa-github text-2xl"></i> Source Code</a>
+                                <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-blue-500 transition-colors font-semibold text-lg"><i class="fa-solid fa-file-pdf text-xl"></i> Technical Report</a>
                             </div>
                         </div>`;
                     modal.classList.remove('pointer-events-none', 'opacity-0');
@@ -558,9 +644,9 @@
                     const testimonial = this.data.testimonials[this.config.activeTestimonial];
                     this.elements.get('testimonial-slider').innerHTML = `
                         <div class="absolute inset-0 fade-in-content">
-                            <i class="fa-solid fa-quote-left text-5xl text-emerald-500 mb-8"></i>
+                            <i class="fa-solid fa-quote-left text-5xl text-blue-500 mb-8"></i>
                             <p class="text-2xl italic text-gray-600 dark:text-gray-300 leading-relaxed mb-6">"${testimonial.quote}"</p>
-                            <p class="text-xl font-semibold text-gray-700 dark:text-gray-200">- ${testimonial.author}</p>
+                            <p class="text-xl font-semibold text-gray-700 dark:text-gray-200">— ${testimonial.author}</p>
                         </div>`;
                     this.config.activeTestimonial = (this.config.activeTestimonial + 1) % this.data.testimonials.length;
                 },
@@ -597,7 +683,13 @@
                 },
                 initTyped() {
                     new Typed('#type-animation', {
-                        strings: [this.data.personalInfo.title, 'A Lifelong Learner and Innovator', 'Building the Future with Code'],
+                        strings: [
+                            'RF IC Design Engineer',
+                            'Analog Layout Specialist', 
+                            'Mixed-Signal Systems Expert',
+                            'High-Frequency Circuit Designer',
+                            'Silicon Implementation Engineer'
+                        ],
                         typeSpeed: 60,
                         backSpeed: 40,
                         loop: true,
@@ -615,27 +707,47 @@
                     renderer.setSize(container.clientWidth, container.clientHeight);
                     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                     container.appendChild(renderer.domElement);
-                    const geometry = new THREE.BoxGeometry(3, 3, 3);
-                    const material = new THREE.MeshStandardMaterial({ color: 0x34D399, wireframe: true, wireframeLinewidth: 2 });
-                    const cube = new THREE.Mesh(geometry, material);
-                    scene.add(cube);
+                    
+                    // Create a more chip-like geometry
+                    const geometry = new THREE.BoxGeometry(3.5, 0.3, 3.5);
+                    const edges = new THREE.EdgesGeometry(geometry);
+                    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x3b82f6, linewidth: 2 });
+                    const wireframe = new THREE.LineSegments(edges, lineMaterial);
+                    
+                    const material = new THREE.MeshStandardMaterial({ 
+                        color: 0x1e293b,
+                        metalness: 0.8,
+                        roughness: 0.2,
+                        emissive: 0x3b82f6,
+                        emissiveIntensity: 0.2
+                    });
+                    const chip = new THREE.Mesh(geometry, material);
+                    
+                    const group = new THREE.Group();
+                    group.add(chip);
+                    group.add(wireframe);
+                    scene.add(group);
+                    
                     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-                    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+                    const dirLight = new THREE.DirectionalLight(0x3b82f6, 1.5);
                     dirLight.position.set(-3, 6, 3);
                     scene.add(dirLight);
                     camera.position.z = 6;
+                    
                     const mouse = new THREE.Vector2();
                     window.addEventListener('mousemove', (event) => {
                         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
                     });
+                    
                     const animate = () => {
                         requestAnimationFrame(animate);
-                        cube.rotation.y = THREE.MathUtils.lerp(cube.rotation.y, (mouse.x * Math.PI) / 10, 0.1);
-                        cube.rotation.x = THREE.MathUtils.lerp(cube.rotation.x, (mouse.y * Math.PI) / 10, 0.1);
+                        group.rotation.y = THREE.MathUtils.lerp(group.rotation.y, (mouse.x * Math.PI) / 8, 0.1);
+                        group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, (mouse.y * Math.PI) / 10, 0.1);
                         renderer.render(scene, camera);
                     };
                     animate();
+                    
                     window.addEventListener('resize', () => {
                         if (container.clientWidth > 0) {
                             camera.aspect = container.clientWidth / container.clientHeight;
@@ -652,7 +764,7 @@
                         cursorDot.style.top = `${e.clientY}px`;
                         cursorCircle.style.left = `${e.clientX}px`;
                         cursorCircle.style.top = `${e.clientY}px`;
-                        const isInteractive = e.target.closest('a, button, .project-card, .process-tab, .service-card');
+                        const isInteractive = e.target.closest('a, button, .project-card, .service-card');
                         document.body.classList.toggle('cursor-grow', !!isInteractive);
                     });
                 },
